@@ -1,4 +1,5 @@
-import { useHome } from '@pages/home';
+import { Header } from "@common/components";
+import { useHome } from "@pages/home";
 
 export function Home() {
   const { data, isFetching, onClickTitle } = useHome();
@@ -7,11 +8,8 @@ export function Home() {
     <div> Loading...</div>
   ) : (
     <>
-      <div>
-        UUID: {data?.uuid} <br />
-        Name: {data?.setting?.botName}
-      </div>
-      <button onClick={onClickTitle}> Click me to Post</button>
+      <h1 class='text-3xl font-bold underline'>Hello world!</h1>
+      <Header />
     </>
   );
 }
