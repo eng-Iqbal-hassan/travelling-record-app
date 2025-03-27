@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Input } from "@common/components";
 
-export function Header() {
+export function Header({ addVendorClick }) {
   return (
     <div className='flex items-center justify-between py-4 px-6 bg-gray-900'>
       <img src='' alt='logo' />
@@ -11,7 +11,7 @@ export function Header() {
       </ul>
       <div className='flex gap-6'>
         <div className='flex gap-3'>
-          <Button className='bg-blue-600' title='Add Vendor' />
+          <Button className='bg-blue-600' title='Add Vendor' onClick={addVendorClick} />
           <Button className='bg-green-600' title='Add Ticket' />
           <Button className='bg-yellow-600' title='Add Reservation' />
         </div>
