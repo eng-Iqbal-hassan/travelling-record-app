@@ -1,3 +1,3 @@
 export function Table({ children }) {
-  return <table>{children}</table>;
+  return <table className='w-full border-collapse rounded-lg border-gray-300'>{children}</table>;
 }
