@@ -43,10 +43,13 @@ export function AddVendorModal({ crossIconClick }) {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label for='cars'>Type</label>
-            <select name='cars' id='cars' className='bg-white rounded-md h-12 px-4'>
-              <option value='volvo'>Ticket</option>
-              <option value='saab'>Hotel</option>
+            <label for='type'>Type</label>
+            <select name='type' id='type' className='bg-white rounded-md h-12 px-4'>
+              <option value='' disabled hidden>
+                Select an option
+              </option>
+              <option value='ticket'>Ticket</option>
+              <option value='ticket'>Hotel</option>
             </select>
           </div>
           <div className='flex gap-3 justify-end'>
