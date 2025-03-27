@@ -1,4 +1,4 @@
-import { AddVendorModal, Header } from "@common/components";
+import { AddVendorModal, Header, TicketTable } from "@common/components";
 import { TicketModal } from "@common/components/TicketModal";
 import { useHome } from "@pages/home";
 import { useState } from "react";
@@ -13,6 +13,7 @@ export function Home() {
   ) : (
     <div>
       <Header addVendorClick={() => setOpenVendorModal(true)} AddTicketClick={() => setOpenTicketModal(true)} />
+      <TicketTable />
       {openVendorModal && <AddVendorModal crossIconClick={() => setOpenVendorModal(false)} />}
       {openTicketModal && <TicketModal crossIconClick={() => setOpenTicketModal(false)} />}
     </div>
