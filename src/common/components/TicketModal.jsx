@@ -4,10 +4,10 @@ import { Button, ModalBody, ModalWrapper } from "@common/components";
 export function TicketModal({ crossIconClick }) {
   return (
     <ModalWrapper>
-      <ModalBody className='relative'>
+      <ModalBody className='w-[37.5rem]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Ticket Detail</h1>
-        <div className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4'>
           <div className='flex flex-col gap-4 pb-4 border-b border-solid border-gray-300'>
             <div className='flex flex-col gap-2'>
               <label for='vendor'>To</label>
@@ -139,7 +139,7 @@ export function TicketModal({ crossIconClick }) {
             <Button className='bg-blue-600 min-w-[3.75rem]' title='Add' />
             <Button className='bg-red-600' title='Cancel' />
           </div>
-        </div>
+        </form>
       </ModalBody>
     </ModalWrapper>
   );

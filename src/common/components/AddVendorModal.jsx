@@ -4,10 +4,10 @@ import { Button, ModalBody, ModalWrapper } from "@common/components";
 export function AddVendorModal({ crossIconClick }) {
   return (
     <ModalWrapper>
-      <ModalBody className='relative'>
+      <ModalBody className='w-[600px]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Vendor</h1>
-        <div className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <label htmlFor=''>Name</label>
             <input type='text' name='' id='' placeholder='Enter Name' className='bg-white rounded-md h-12 px-4' />
@@ -56,7 +56,7 @@ export function AddVendorModal({ crossIconClick }) {
             <Button className='bg-blue-600 min-w-[3.75rem]' title='Add' />
             <Button className='bg-red-600' title='Cancel' />
           </div>
-        </div>
+        </form>
       </ModalBody>
     </ModalWrapper>
   );
