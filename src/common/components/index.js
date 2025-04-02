@@ -12,3 +12,5 @@ export { TableBody } from "@common/components/TableBody";
 export { TableRow } from "@common/components/TableRow";
 export { Th } from "@common/components/Th";
 export { AddReservationModal } from "@common/components/AddReservationModal";
+export { User } from "@common/components/User";
+export { AddUser } from "@common/components/AddUser";
