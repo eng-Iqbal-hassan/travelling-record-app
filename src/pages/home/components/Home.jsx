@@ -9,6 +9,10 @@ export function Home() {
   const [openReservationModal, setOpenReservationModal] = useState(false);
   const [openTicketModal, setOpenTicketModal] = useState(false);
 
+  const handleCloseVendorModal = () => {
+    setOpenVendorModal(false);
+  };
+
   return isFetching ? (
     <div> Loading...</div>
   ) : (
@@ -19,7 +23,9 @@ export function Home() {
         AddReservationClick={() => setOpenReservationModal(true)}
       />
       <TicketTable />
-      {openVendorModal && <AddVendorModal crossIconClick={() => setOpenVendorModal(false)} />}
+      {openVendorModal && (
+        <AddVendorModal crossIconClick={handleCloseVendorModal} dataSubmitted={handleCloseVendorModal} />
+      )}
       {openTicketModal && <TicketModal crossIconClick={() => setOpenTicketModal(false)} />}
       {openReservationModal && <AddReservationModal crossIconClick={() => setOpenReservationModal(false)} />}
     </div>

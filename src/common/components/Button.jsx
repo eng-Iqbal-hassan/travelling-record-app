@@ -1,8 +1,12 @@
 import React from "react";
 
-export function Button({ className, title, onClick }) {
+export function Button({ className, title, onClick, type }) {
   return (
-    <button onClick={onClick} className={`text-white text-base font-medium py-2 px-4 rounded-md ${className}`}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`text-white text-base font-medium py-2 px-4 rounded-md ${className}`}
+    >
       {title}
     </button>
   );
