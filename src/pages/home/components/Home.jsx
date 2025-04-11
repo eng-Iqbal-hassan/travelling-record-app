@@ -1,4 +1,4 @@
-import { AddReservationModal, AddVendorModal, Header, TicketTable } from "@common/components";
+import { AddReservationModal, AddVendorModal, Button, Header, TicketTable } from "@common/components";
 import { TicketModal } from "@common/components/TicketModal";
 import { useHome } from "@pages/home";
 import { useState } from "react";
@@ -17,17 +17,15 @@ export function Home() {
     <div> Loading...</div>
   ) : (
     <div>
-      <Header
-        addVendorClick={() => setOpenVendorModal(true)}
-        AddTicketClick={() => setOpenTicketModal(true)}
-        AddReservationClick={() => setOpenReservationModal(true)}
-      />
+      <Header />
+      <div>
+        <h2>Vendor</h2>
+        <Button className='bg-[#000080]' title='Add Vendor' onClick={() => setOpenVendorModal(true)} />
+      </div>
       <TicketTable />
       {openVendorModal && (
         <AddVendorModal crossIconClick={handleCloseVendorModal} dataSubmitted={handleCloseVendorModal} />
       )}
-      {openTicketModal && <TicketModal crossIconClick={() => setOpenTicketModal(false)} />}
-      {openReservationModal && <AddReservationModal crossIconClick={() => setOpenReservationModal(false)} />}
     </div>
   );
 }
