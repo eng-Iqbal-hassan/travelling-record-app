@@ -1,13 +1,14 @@
 import React from "react";
-import { Button, Input } from "@common/components";
+import { Input } from "@common/components";
 import { ROUTES } from "@routes";
 import { Link } from "react-router-dom";
+import { Logo } from "@assets/svgs";
 
 export function Header() {
   return (
     <div className='flex items-center justify-between py-4 px-6 bg-[#000080]'>
       <Link to={ROUTES.HOME}>
-        <img src='' alt='logo' />
+        <Logo />
       </Link>
       <ul className='flex gap-6 text-white'>
         <li>
