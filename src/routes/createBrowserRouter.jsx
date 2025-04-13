@@ -5,6 +5,7 @@ import { ROUTES, PrivateRoute } from "@routes";
 import { Crud } from "@pages/crud/components/Crud";
 import { Tickets } from "@pages/tickets";
 import { Reservation } from "@pages/reservation";
+import { Login } from "@pages/login";
 
 // eslint-disable-next-line no-unused-vars
 const createPrivateRoute = (Component) => {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       {/* <Route path={ROUTES.HOME} element={createPrivateRoute(Home)} /> */}
+      <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.UN_AUTHORIZED} element={<Unauthorized />} />
       <Route path={ROUTES.CRUD} element={<Crud />} />
