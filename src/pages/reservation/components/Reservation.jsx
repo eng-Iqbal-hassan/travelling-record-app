@@ -1,4 +1,4 @@
-import { AddReservationModal, Button, Header } from "@common/components";
+import { AddReservationModal, Button, Header, ReservationTable } from "@common/components";
 import { useState } from "react";
 
 export function Reservation() {
@@ -10,6 +10,7 @@ export function Reservation() {
         <h2>Reservation</h2>
         <Button className='bg-[#000080]' title='Add Reservation' onClick={() => setOpenReservationModal(true)} />
       </div>
+      <ReservationTable />
       {openReservationModal && <AddReservationModal crossIconClick={() => setOpenReservationModal(false)} />}
     </div>
   );

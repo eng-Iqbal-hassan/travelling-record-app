@@ -14,3 +14,5 @@ export { Th } from "@common/components/Th";
 export { AddReservationModal } from "@common/components/AddReservationModal";
 export { User } from "@common/components/User";
 export { AddUser } from "@common/components/AddUser";
+export { VendorTable } from "@common/components/VendorTable";
+export { ReservationTable } from "@common/components/ReservationTable";
