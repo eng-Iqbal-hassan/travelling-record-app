@@ -6,11 +6,13 @@ export function Reservation() {
   return (
     <div>
       <Header />
-      <div>
-        <h2>Reservation</h2>
-        <Button className='bg-[#000080]' title='Add Reservation' onClick={() => setOpenReservationModal(true)} />
+      <div className='flex flex-col gap-8 py-4 px-8'>
+        <div className='flex justify-between items-center'>
+          <h2>Reservation</h2>
+          <Button className='bg-[#000080]' title='Add Reservation' onClick={() => setOpenReservationModal(true)} />
+        </div>
+        <ReservationTable />
       </div>
-      <ReservationTable />
       {openReservationModal && <AddReservationModal crossIconClick={() => setOpenReservationModal(false)} />}
     </div>
   );

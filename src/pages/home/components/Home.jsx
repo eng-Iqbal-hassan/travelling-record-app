@@ -15,11 +15,13 @@ export function Home() {
   ) : (
     <div>
       <Header />
-      <div>
-        <h2>Vendor</h2>
-        <Button className='bg-[#000080]' title='Add Vendor' onClick={() => setOpenVendorModal(true)} />
+      <div className='flex flex-col gap-8 py-4 px-8'>
+        <div className='flex justify-between items-center'>
+          <h2>Vendor</h2>
+          <Button className='bg-[#000080]' title='Add Vendor' onClick={() => setOpenVendorModal(true)} />
+        </div>
+        <VendorTable />
       </div>
-      <VendorTable />
       {openVendorModal && (
         <AddVendorModal crossIconClick={handleCloseVendorModal} dataSubmitted={handleCloseVendorModal} />
       )}

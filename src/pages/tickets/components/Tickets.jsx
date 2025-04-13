@@ -7,11 +7,13 @@ export function Tickets() {
   return (
     <div>
       <Header />
-      <div>
-        <h2>Ticket</h2>
-        <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
+      <div className='flex flex-col gap-8 py-4 px-8'>
+        <div className='flex justify-between items-center'>
+          <h2>Ticket</h2>
+          <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
+        </div>
+        <TicketTable />
       </div>
-      <TicketTable />
       {openTicketModal && <TicketModal crossIconClick={() => setOpenTicketModal(false)} />}
     </div>
   );
