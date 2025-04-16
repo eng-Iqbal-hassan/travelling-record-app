@@ -1,6 +1,47 @@
 import React from "react";
+import { useFormik } from "formik";
+// useFormik is a custom hook for managing state and handling events.
+import { signInSchema } from "../../../schemas";
+// There is no need to write the file name because react takes index.js as default file, if file name does not mentioned. Thats why we name that fle as index.js
+
+const initialValues = {
+  email: "",
+  password: "",
+};
 
 export function Login() {
+  // for form handling -> we use formik
+  // for form validation -> we use yup library
+
+  //   const formik = useFormik({
+  //     // initialValue: initialValue
+  //     // in js object if both property and value is same then we write just once
+  //     initialValue,
+  //     onSubmit: (values) => {
+  //       console.log(values);
+  //     },
+  //   });
+  //   console.log(formik);
+
+  // this formik has to many things(function) in it so we have destructure it to get some out of it.
+  // These functions are predefined functions so we need not to define any of them as these are all predefine functions thats why formik is so popular in form handling.
+
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } = useFormik({
+    initialValues,
+    validationSchema: signInSchema,
+    onSubmit: (values, actions) => {
+      console.log(values);
+      actions.resetForm();
+    },
+  });
+  console.log("errors", errors);
+  //   console.log(formik);
+  // This form handling is done and there is no need to use states and onChange there is no need to  setState and the value of the state variable in some other object on submit of the function, just use the simple formik and our form is handled in so much simple way.
+
+  // install the yup library -> it will validate our form and return error and with the help of formik we will display our error.
+
+  // Create the validation schema -> Validation schema is basically conditions that we check for form validations.
+
   return (
     <div class='min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6'>
       <div class='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -10,7 +51,7 @@ export function Login() {
 
       <div class='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
         <div class='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div>
               <label for='email' class='block text-sm font-medium leading-5  text-gray-700'>
                 Email address
@@ -19,10 +60,12 @@ export function Login() {
                 <input
                   id='email'
                   name='email'
+                  value={values.email}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder='user@example.com'
                   type='email'
                   required=''
-                  value=''
                   class='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5'
                 />
                 <div class='hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none'>
@@ -35,6 +78,9 @@ export function Login() {
                   </svg>
                 </div>
               </div>
+              <div className='error-container'>
+                {errors.email && touched.email && <p className='form-error'>{errors.email}</p>}
+              </div>
             </div>
 
             <div class='mt-6'>
@@ -45,34 +91,15 @@ export function Login() {
                 <input
                   id='password'
                   name='password'
+                  value={values.password}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   type='password'
-                  required=''
                   class='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5'
                 />
               </div>
-            </div>
-
-            <div class='mt-6 flex items-center justify-between'>
-              <div class='flex items-center'>
-                <input
-                  id='remember_me'
-                  name='remember'
-                  type='checkbox'
-                  value='1'
-                  class='form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out'
-                />
-                <label for='remember_me' class='ml-2 block text-sm leading-5 text-gray-900'>
-                  Remember me
-                </label>
-              </div>
-
-              <div class='text-sm leading-5'>
-                <a
-                  href='#'
-                  class='font-medium text-blue-500 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150'
-                >
-                  Forgot your password?
-                </a>
+              <div className='error-container'>
+                {errors.password && touched.password && <p className='form-error'>{errors.password}</p>}
               </div>
             </div>
 
