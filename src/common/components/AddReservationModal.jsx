@@ -1,19 +1,37 @@
 import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
+import { useFormik } from "formik";
+import { values } from "lodash";
 
 export function AddReservationModal({ crossIconClick }) {
+  const formik = useFormik({
+    initialValues: {
+      vendor: "",
+      checkedInDate: "",
+      checkedOutDate: "",
+      hotelName: "",
+      reservationNumber: "",
+      guestName: "",
+      view: "",
+      nights: 0,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+  const { values, handleChange, handleSubmit } = formik;
   return (
     <ModalWrapper>
       <ModalBody className='w-[75rem]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Reservation</h1>
-        <form action='' className='flex flex-col gap-4'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex'>
             <div className='flex flex-col gap-4 border-r border-solid border-gray-300 pr-6 flex-1'>
               <div className='flex flex-col gap-2'>
                 <label for='type'>To</label>
-                <select name='type' id='type' className='bg-white rounded-md h-12 px-4'>
-                  <option value='' disabled hidden>
+                <select name='vendor' id='vendor' className='bg-white rounded-md h-12 px-4'>
+                  <option value={values.vendor} onChange={handleChange} disabled hidden>
                     Select a vendor
                   </option>
                   <option value='vendor1'>Vendor 1</option>
@@ -25,8 +43,10 @@ export function AddReservationModal({ crossIconClick }) {
                   <label htmlFor=''>Checked In</label>
                   <input
                     type='date'
-                    name=''
-                    id=''
+                    name='checkedInDate'
+                    id='checkedInDate'
+                    value={values.checkedInDate}
+                    onChange={handleChange}
                     placeholder='dd/mm/yyyy'
                     className='bg-white rounded-md h-12 px-4 w-full'
                   />
@@ -35,8 +55,10 @@ export function AddReservationModal({ crossIconClick }) {
                   <label htmlFor=''>Checked Out</label>
                   <input
                     type='date'
-                    name=''
-                    id=''
+                    name='checkedOutDate'
+                    id='checkedOutDate'
+                    value={values.checkedOutDate}
+                    onChange={handleChange}
                     placeholder='dd/mm/yyyy'
                     className='bg-white rounded-md h-12 px-4 w-full'
                   />
@@ -46,47 +68,69 @@ export function AddReservationModal({ crossIconClick }) {
                 <label htmlFor=''>Hotel Name</label>
                 <input
                   type='text'
-                  name=''
-                  id=''
+                  name='hotelName'
+                  id='hotelName'
+                  value={values.hotelName}
+                  onChange={handleChange}
                   placeholder='Enter Hotel Name'
                   className='bg-white rounded-md h-12 px-4'
                 />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='' className='text-black'>
+                <label htmlFor='reservationNumber' className='text-black'>
                   Reservation Number
                 </label>
                 <input
                   type='text'
-                  name=''
-                  id=''
+                  name='reservationNumber'
+                  id='reservationNumber'
+                  value={values.reservationNumber}
+                  onChange={handleChange}
                   placeholder='Enter Reservation Number'
                   className='bg-white rounded-md h-12 px-4'
                 />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='' className='text-black'>
+                <label htmlFor='guestName' className='text-black'>
                   Guest Name
                 </label>
                 <input
                   type='text'
-                  name=''
-                  id=''
+                  name='guestName'
+                  id='guestName'
+                  value={values.guestName}
+                  onChange={handleChange}
                   placeholder='Enter Guest Name'
                   className='bg-white rounded-md h-12 px-4'
                 />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='' className='text-black'>
+                <label htmlFor='view' className='text-black'>
                   View
                 </label>
-                <input type='number' name='' id='' placeholder='Enter View' className='bg-white rounded-md h-12 px-4' />
+                <input
+                  type='text'
+                  name='view'
+                  id='view'
+                  value={values.view}
+                  onChange={handleChange}
+                  placeholder='Enter View'
+                  className='bg-white rounded-md h-12 px-4'
+                />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='' className='text-black'>
+                <label htmlFor='nights' className='text-black'>
                   NTS
                 </label>
-                <input type='number' name='' id='' placeholder='Enter NTS' className='bg-white rounded-md h-12 px-4' />
+                <input
+                  type='number'
+                  name='nights'
+                  id='nights'
+                  value={values.nights}
+                  onChange={handleChange}
+                  placeholder='Enter NTS'
+                  className='bg-white rounded-md h-12 px-4'
+                />
               </div>
             </div>
             <div className='flex flex-col gap-4 pl-6 flex-1'>
