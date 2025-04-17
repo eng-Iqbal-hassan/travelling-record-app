@@ -1,56 +1,44 @@
 import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useFormik } from "formik";
 
 export function TicketModal({ crossIconClick }) {
-  const [formData, setFormData] = useState({
-    vendor: "",
-    date: "",
-    childCount: 0,
-    childRate: 0,
-    childAmount: 0,
-    adultCount: 0,
-    adultRate: 0,
-    adultAmount: 0,
-    oldCount: 0,
-    oldRate: 0,
-    oldAmount: 0,
-    totalAmount: 0,
-    description: "",
-    paymentMethod: "",
+  const formik = useFormik({
+    initialValues: {
+      vendor: "",
+      date: "",
+      childCount: 0,
+      childRate: 0,
+      childAmount: 0,
+      adultCount: 0,
+      adultRate: 0,
+      adultAmount: 0,
+      oldCount: 0,
+      oldRate: 0,
+      oldAmount: 0,
+      totalAmount: 0,
+      description: "",
+      paymentMethod: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const { values, handleChange, setFieldValue, handleSubmit } = formik;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const childAmount = +values.childCount * +values.childRate;
+    const adultAmount = +values.adultCount * +values.adultRate;
+    const oldAmount = +values.oldCount * +values.oldRate;
+    const totalAmount = childAmount + adultAmount + oldAmount;
 
-    const data = {
-      vendor: formData.vendor,
-      date: formData.date,
-      childCount: formData.childCount,
-      childRate: formData.childRate,
-      childAmount: formData.childAmount,
-      adultCount: formData.adultCount,
-      adultRate: formData.adultRate,
-      adultAmount: formData.adultAmount,
-      oldCount: formData.oldCount,
-      oldRate: formData.oldRate,
-      oldAmount: formData.oldAmount,
-      totalAmount: formData.totalAmount,
-      description: formData.description,
-      paymentMethod: formData.paymentMethod,
-    };
-
-    console.log(data);
-    // dataSubmitted();
-  };
+    setFieldValue("childAmount", childAmount);
+    setFieldValue("adultAmount", adultAmount);
+    setFieldValue("oldAmount", oldAmount);
+    setFieldValue("totalAmount", totalAmount);
+  }, [values.childCount, values.childRate, values.adultCount, values.adultRate, values.oldCount, values.oldRate]);
 
   return (
     <ModalWrapper>
@@ -58,10 +46,16 @@ export function TicketModal({ crossIconClick }) {
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Ticket Detail</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+          {/* VENDOR & DATE */}
           <div className='flex flex-col gap-4 pb-4 border-b border-solid border-gray-300'>
             <div className='flex flex-col gap-2'>
-              <label for='vendor'>To</label>
-              <select name='vendor' id='vendor' className='bg-white rounded-md h-12 px-4' onChange={handleChange}>
+              <label htmlFor='vendor'>To</label>
+              <select
+                name='vendor'
+                className='bg-white rounded-md h-12 px-4'
+                value={values.vendor}
+                onChange={handleChange}
+              >
                 <option value='' disabled hidden>
                   Select an option
                 </option>
@@ -70,154 +64,157 @@ export function TicketModal({ crossIconClick }) {
               </select>
             </div>
             <div className='flex flex-col gap-2'>
-              <label htmlFor=''>Date</label>
+              <label htmlFor='date'>Date</label>
               <input
                 type='date'
                 name='date'
-                id=''
-                placeholder='dd/mm/yyyy'
                 className='bg-white rounded-md h-12 px-4'
+                value={values.date}
                 onChange={handleChange}
               />
             </div>
           </div>
+
+          {/* TICKETS SECTION */}
           <div className='flex flex-col gap-6 pb-4 border-b border-solid border-gray-300'>
             <h2>Tickets</h2>
-            <div className='flex flex-col gap-4'>
-              <div className='flex gap-3 items-center'>
-                <label htmlFor=''>Child:</label>
+
+            {/* CHILD */}
+            <div className='flex flex-col gap-2'>
+              <label>Child</label>
+              <div className='flex gap-3'>
                 <input
                   type='number'
                   name='childCount'
-                  id=''
+                  placeholder='Count'
                   className='bg-white rounded-md h-12 px-4 w-full'
-                  placeholder='count'
+                  value={values.childCount}
                   onChange={handleChange}
                 />
                 <input
                   type='number'
                   name='childRate'
-                  id=''
+                  placeholder='Rate'
                   className='bg-white rounded-md h-12 px-4 w-full'
-                  placeholder='rate'
+                  value={values.childRate}
                   onChange={handleChange}
                 />
               </div>
-              <div className='flex gap-3 items-center'>
-                <input
-                  type='number'
-                  name='childAmount'
-                  id=''
-                  className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                  placeholder='amount'
-                  onChange={handleChange}
-                />
-              </div>
+              <input
+                type='number'
+                name='childAmount'
+                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
+                value={values.childAmount}
+                disabled
+              />
             </div>
-            <div className='flex flex-col gap-4'>
-              <div className='flex gap-3 items-center'>
-                <label htmlFor=''>Adult:</label>
+
+            {/* ADULT */}
+            <div className='flex flex-col gap-2'>
+              <label>Adult</label>
+              <div className='flex gap-3'>
                 <input
                   type='number'
                   name='adultCount'
-                  id=''
+                  placeholder='Count'
                   className='bg-white rounded-md h-12 px-4 w-full'
-                  placeholder='count'
+                  value={values.adultCount}
                   onChange={handleChange}
                 />
                 <input
                   type='number'
                   name='adultRate'
-                  id=''
+                  placeholder='Rate'
                   className='bg-white rounded-md h-12 px-4 w-full'
-                  placeholder='rate'
+                  value={values.adultRate}
                   onChange={handleChange}
                 />
               </div>
-              <div className='flex gap-3 items-center'>
-                <input
-                  type='number'
-                  name='adultAmount'
-                  id=''
-                  className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                  placeholder='amount'
-                  onChange={handleChange}
-                />
-              </div>
+              <input
+                type='number'
+                name='adultAmount'
+                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
+                value={values.adultAmount}
+                disabled
+              />
             </div>
-            <div className='flex flex-col gap-4'>
-              <div className='flex gap-3 items-center'>
-                <label htmlFor=''>Old:</label>
+
+            {/* OLD */}
+            <div className='flex flex-col gap-2'>
+              <label>Old</label>
+              <div className='flex gap-3'>
                 <input
                   type='number'
                   name='oldCount'
-                  id=''
+                  placeholder='Count'
                   className='bg-white rounded-md h-12 px-4 w-full'
-                  placeholder='count'
+                  value={values.oldCount}
                   onChange={handleChange}
                 />
                 <input
                   type='number'
                   name='oldRate'
-                  id=''
+                  placeholder='Rate'
                   className='bg-white rounded-md h-12 px-4 w-full'
-                  placeholder='rate'
+                  value={values.oldRate}
                   onChange={handleChange}
                 />
               </div>
-              <div className='flex gap-3 items-center'>
-                <input
-                  type='number'
-                  name='oldAmount'
-                  id=''
-                  className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                  placeholder='amount'
-                  onChange={handleChange}
-                />
-              </div>
+              <input
+                type='number'
+                name='oldAmount'
+                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
+                value={values.oldAmount}
+                disabled
+              />
             </div>
-            <div className='flex gap-3 items-center'>
-              <label htmlFor=''>Total:</label>
+
+            {/* TOTAL */}
+            <div className='flex flex-col gap-2'>
+              <label>Total</label>
               <input
                 type='number'
                 name='totalAmount'
-                id=''
                 className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                placeholder='amount'
-                onChange={handleChange}
+                value={values.totalAmount}
+                disabled
               />
             </div>
           </div>
+
+          {/* DESCRIPTION & PAYMENT */}
           <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-2'>
-              <label htmlFor=''>Description</label>
+              <label htmlFor='description'>Description</label>
               <textarea
                 name='description'
-                id=''
                 className='bg-white rounded-md min-h-[6.25rem] max-h-[6.25rem] p-4'
                 placeholder='Enter description'
+                value={values.description}
                 onChange={handleChange}
-              ></textarea>
+              />
             </div>
             <div className='flex flex-col gap-2'>
-              <label for='vendor'>Payment Method</label>
+              <label htmlFor='paymentMethod'>Payment Method</label>
               <select
                 name='paymentMethod'
-                id='vendor'
                 className='bg-white rounded-md h-12 px-4'
+                value={values.paymentMethod}
                 onChange={handleChange}
               >
                 <option value='' disabled hidden>
                   Select payment method
                 </option>
-                <option value='vendor1'>Credit</option>
-                <option value='vendor2'>Debit</option>
+                <option value='credit'>Credit</option>
+                <option value='debit'>Debit</option>
               </select>
             </div>
           </div>
+
+          {/* ACTION BUTTONS */}
           <div className='flex gap-3 justify-end'>
             <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
-            <Button className='bg-red-600' title='Cancel' />
+            <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
           </div>
         </form>
       </ModalBody>

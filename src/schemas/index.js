@@ -19,4 +19,4 @@ export const signInSchema = Yup.object({
 // (4): Now there is validationSchema name key in useFormik function whose value is given this object we create in this file
 // (5): There is errors function in it and add it in destructuring place and add one more div for email error and one for password to display its error
 // (6): One error is that when we enter email, then the error for password also shown because its container fulfills its condition, so this bug is resolved using touch function of useFormik hook
-// (7): Inside useFormik function -> in onSubmit function actions method is added to reset the from.
+// (7): Inside useFormik function -> in onSubmit function actions me thod is added to reset the from.
