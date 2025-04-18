@@ -13,7 +13,12 @@ export function Reservation() {
         </div>
         <ReservationTable />
       </div>
-      {openReservationModal && <AddReservationModal crossIconClick={() => setOpenReservationModal(false)} />}
+      {openReservationModal && (
+        <AddReservationModal
+          crossIconClick={() => setOpenReservationModal(false)}
+          submitted={() => setOpenReservationModal(false)}
+        />
+      )}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 
-export function TicketModal({ crossIconClick }) {
+export function TicketModal({ crossIconClick, submitted }) {
   const formik = useFormik({
     initialValues: {
       vendor: "",
@@ -23,6 +23,7 @@ export function TicketModal({ crossIconClick }) {
     },
     onSubmit: (values) => {
       console.log(values);
+      submitted();
     },
   });
 

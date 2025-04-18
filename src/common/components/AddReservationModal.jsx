@@ -1,7 +1,7 @@
 import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useFormik } from "formik";
-import { values } from "lodash";
+import { useEffect } from "react";
 
 export function AddReservationModal({ crossIconClick }) {
   const formik = useFormik({
@@ -14,12 +14,64 @@ export function AddReservationModal({ crossIconClick }) {
       guestName: "",
       view: "",
       nights: 0,
+      single: 0,
+      double: 0,
+      triple: 0,
+      quadratic: 0,
+      singleRate: 0,
+      doubleRate: 0,
+      tripleRate: 0,
+      quadraticRate: 0,
+      roomAmount: 0,
+      breakfast: 0,
+      lunch: 0,
+      dinner: 0,
+      breakfastRate: 0,
+      lunchRate: 0,
+      dinnerRate: 0,
+      mealAmount: 0,
+      totalAmount: 0,
+      paymentType: "",
     },
     onSubmit: (values) => {
       console.log(values);
+      submitted();
     },
   });
-  const { values, handleChange, handleSubmit } = formik;
+  const { values, handleChange, handleSubmit, setFieldValue } = formik;
+
+  useEffect(() => {
+    const roomAmount =
+      +values.single * +values.singleRate +
+      +values.double * +values.doubleRate +
+      +values.triple * +values.tripleRate +
+      +values.quadratic * +values.quadraticRate;
+    const mealAmount =
+      +values.breakfast * +values.breakfastRate +
+      +values.lunch * +values.lunchRate +
+      +values.dinner * +values.dinnerRate;
+    const totalAmount = roomAmount + mealAmount;
+
+    setFieldValue("roomAmount", roomAmount);
+    setFieldValue("mealAmount", mealAmount);
+    setFieldValue("totalAmount", totalAmount);
+  }, [
+    values.single,
+    values.singleRate,
+    values.double,
+    values.doubleRate,
+    values.triple,
+    values.tripleRate,
+    values.quadratic,
+    values.quadraticRate,
+    values.breakfast,
+    values.breakfastRate,
+    values.lunch,
+    values.lunchRate,
+    values.dinner,
+    values.dinnerRate,
+  ]);
+
   return (
     <ModalWrapper>
       <ModalBody className='w-[75rem]'>
@@ -29,9 +81,15 @@ export function AddReservationModal({ crossIconClick }) {
           <div className='flex'>
             <div className='flex flex-col gap-4 border-r border-solid border-gray-300 pr-6 flex-1'>
               <div className='flex flex-col gap-2'>
-                <label for='type'>To</label>
-                <select name='vendor' id='vendor' className='bg-white rounded-md h-12 px-4'>
-                  <option value={values.vendor} onChange={handleChange} disabled hidden>
+                <label for='vendor'>To</label>
+                <select
+                  name='vendor'
+                  id='vendor'
+                  value={values.vendor}
+                  onChange={handleChange}
+                  className='bg-white rounded-md h-12 px-4'
+                >
+                  <option value='' disabled hidden>
                     Select a vendor
                   </option>
                   <option value='vendor1'>Vendor 1</option>
@@ -139,41 +197,49 @@ export function AddReservationModal({ crossIconClick }) {
                 <div className='flex flex-col gap-4'>
                   <div className='flex gap-2'>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>SGL</label>
+                      <label htmlFor='single'>SGL</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='single'
+                        id='single'
+                        value={values.single}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>DBL</label>
+                      <label htmlFor='double'>DBL</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='double'
+                        id='double'
+                        value={values.double}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>TRL</label>
+                      <label htmlFor='triple'>TRL</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='triple'
+                        id='triple'
+                        value={values.triple}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>QUAD</label>
+                      <label htmlFor='quadratic'>QUAD</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='quadratic'
+                        id='quadratic'
+                        value={values.quadratic}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
@@ -181,41 +247,49 @@ export function AddReservationModal({ crossIconClick }) {
                   </div>
                   <div className='flex gap-2'>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>SGL Rate</label>
+                      <label htmlFor='singleRate'>SGL Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='singleRate'
+                        id='singleRate'
+                        value={values.singleRate}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>DBL Rate</label>
+                      <label htmlFor='doubleRate'>DBL Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='doubleRate'
+                        id='doubleRate'
+                        value={values.doubleRate}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>TRL Rate</label>
+                      <label htmlFor='tripleRate'>TRL Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='tripleRate'
+                        id='tripleRate'
+                        value={values.tripleRate}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>QUAD Rate</label>
+                      <label htmlFor='quadraticRate'>QUAD Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='quadraticRate'
+                        id='quadraticRate'
+                        value={values.quadraticRate}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
@@ -228,31 +302,37 @@ export function AddReservationModal({ crossIconClick }) {
                 <div className='flex flex-col gap-4'>
                   <div className='flex gap-2'>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>BF</label>
+                      <label htmlFor='breakfast'>BF</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='breakfast'
+                        id='breakfast'
+                        value={values.breakfast}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>LU</label>
+                      <label htmlFor='lunch'>LU</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='lunch'
+                        id='lunch'
+                        value={values.lunch}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>DN</label>
+                      <label htmlFor='dinner'>DN</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='dinner'
+                        id='dinner'
+                        value={values.dinner}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
@@ -260,31 +340,37 @@ export function AddReservationModal({ crossIconClick }) {
                   </div>
                   <div className='flex gap-2'>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>BF Rate</label>
+                      <label htmlFor='breakfastRate'>BF Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='breakfastRate'
+                        id='breakfastRate'
+                        value={values.breakfastRate}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>LU Rate</label>
+                      <label htmlFor='lunchRate'>LU Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='lunchRate'
+                        id='lunchRate'
+                        value={values.lunchRate}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
                     </div>
                     <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor=''>DN Rate</label>
+                      <label htmlFor='dinnerRate'>DN Rate</label>
                       <input
                         type='number'
-                        name=''
-                        id=''
+                        name='dinnerRate'
+                        id='dinnerRate'
+                        value={values.handleChange}
+                        onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
                       />
@@ -294,39 +380,57 @@ export function AddReservationModal({ crossIconClick }) {
               </div>
               <div className='flex gap-2'>
                 <div className='flex flex-1 flex-col gap-2'>
-                  <label htmlFor='' className='text-black'>
+                  <label htmlFor='roomAmount' className='text-black'>
                     Total Room Amount
                   </label>
                   <input
                     type='number'
-                    name=''
-                    id=''
+                    name='roomAmount'
+                    id='roomAmount'
+                    value={values.roomAmount}
+                    disabled
                     placeholder='Enter Amount'
                     className='bg-white rounded-md h-12 px-4'
                   />
                 </div>
                 <div className='flex flex-1 flex-col gap-2'>
-                  <label htmlFor='' className='text-black'>
+                  <label htmlFor='mealAmount' className='text-black'>
                     Total Meal Amount
                   </label>
                   <input
                     type='number'
-                    name=''
-                    id=''
+                    name='mealAmount'
+                    id='mealAmount'
+                    value={values.mealAmount}
+                    disabled
                     placeholder='Enter Amount'
                     className='bg-white rounded-md h-12 px-4'
                   />
                 </div>
               </div>
               <div className='flex flex-1 flex-col gap-2'>
-                <label htmlFor='' className='text-black'>
+                <label htmlFor='totalAmount' className='text-black'>
                   Enter Payment Amount
                 </label>
-                <input type='text' name='' id='' placeholder='Enter Amount' className='bg-white rounded-md h-12 px-4' />
+                <input
+                  type='text'
+                  name='totalAmount'
+                  id='totalAmount'
+                  value={values.totalAmount}
+                  disabled
+                  placeholder='Enter Amount'
+                  className='bg-white rounded-md h-12 px-4'
+                />
               </div>
               <div className='flex flex-1 flex-col gap-2'>
-                <label for='type'>Payment Type</label>
-                <select name='type' id='type' className='bg-white rounded-md h-12 px-4'>
+                <label for='paymentType'>Payment Type</label>
+                <select
+                  name='paymentType'
+                  id='paymentType'
+                  value={values.paymentType}
+                  onChange={handleChange}
+                  className='bg-white rounded-md h-12 px-4'
+                >
                   <option value='' disabled hidden>
                     Select Payment Type
                   </option>
@@ -337,8 +441,8 @@ export function AddReservationModal({ crossIconClick }) {
             </div>
           </div>
           <div className='flex gap-3 justify-end'>
-            <Button className='bg-blue-600 min-w-[3.75rem]' title='Add' />
-            <Button className='bg-red-600' title='Cancel' />
+            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
+            <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
           </div>
         </form>
       </ModalBody>

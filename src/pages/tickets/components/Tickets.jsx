@@ -14,7 +14,9 @@ export function Tickets() {
         </div>
         <TicketTable />
       </div>
-      {openTicketModal && <TicketModal crossIconClick={() => setOpenTicketModal(false)} />}
+      {openTicketModal && (
+        <TicketModal crossIconClick={() => setOpenTicketModal(false)} submitted={() => setOpenTicketModal(false)} />
+      )}
     </div>
   );
 }
