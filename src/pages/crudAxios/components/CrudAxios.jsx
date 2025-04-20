@@ -24,10 +24,21 @@ export function CrudAxios() {
 
   console.log(posts);
 
+  const onDelete = async (id) => {
+    try {
+      const res = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`);
+      if (res.status === 200) {
+        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       {posts.map((post, index) => (
-        <Post key={index} id={post.id} title={post.title} body={post.body} />
+        <Post key={index} id={post.id} title={post.title} body={post.body} onDelete={onDelete} />
       ))}
     </div>
   );
