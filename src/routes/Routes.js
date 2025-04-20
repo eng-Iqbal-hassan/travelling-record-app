@@ -5,4 +5,5 @@ export const ROUTES = {
   CRUD: "/crud",
   RESERVATION: "/reservation",
   TICKETS: "/tickets",
+  CRUD_AXIOS: "/crud-axios",
 };

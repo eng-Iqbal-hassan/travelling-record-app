@@ -6,6 +6,7 @@ import { Crud } from "@pages/crud/components/Crud";
 import { Tickets } from "@pages/tickets";
 import { Reservation } from "@pages/reservation";
 import { Login } from "@pages/login";
+import { CrudAxios } from "@pages/crudAxios";
 
 // eslint-disable-next-line no-unused-vars
 const createPrivateRoute = (Component) => {
@@ -26,6 +27,7 @@ export const router = createBrowserRouter(
       <Route path={ROUTES.CRUD} element={<Crud />} />
       <Route path={ROUTES.TICKETS} element={<Tickets />} />
       <Route path={ROUTES.RESERVATION} element={<Reservation />} />
+      <Route path={ROUTES.CRUD_AXIOS} element={<CrudAxios />} />
     </>
   ),
   { basename: "/app" }

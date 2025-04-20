@@ -16,3 +16,5 @@ export { User } from "@common/components/User";
 export { AddUser } from "@common/components/AddUser";
 export { VendorTable } from "@common/components/VendorTable";
 export { ReservationTable } from "@common/components/ReservationTable";
+export { Post } from "@common/components/Post";
+export { AddPost } from "@common/components/AddPost";
