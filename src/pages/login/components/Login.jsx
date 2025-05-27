@@ -2,7 +2,9 @@ import React from "react";
 import { useFormik } from "formik";
 // useFormik is a custom hook for managing state and handling events.
 import { signInSchema } from "../../../schemas";
-// There is no need to write the file name because react takes index.js as default file, if file name does not mentioned. Thats why we name that fle as index.js
+// There is no need to write the file name because react takes index.js as default file, if file name does not mentioned. Thats why we name that file as index.js
+import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   email: "",
@@ -26,12 +28,34 @@ export function Login() {
   // this formik has to many things(function) in it so we have destructure it to get some out of it.
   // These functions are predefined functions so we need not to define any of them as these are all predefine functions thats why formik is so popular in form handling.
 
+  // const navigate = useNavigate();
+
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues,
     validationSchema: signInSchema,
-    onSubmit: (values, actions) => {
-      console.log(values);
-      actions.resetForm();
+    onSubmit: async (values, actions) => {
+      try {
+        const response = await axios.post("http://54.164.99.34/api/token/", {
+          email: values.email,
+          password: values.password,
+        });
+        const { access, refresh } = response.data;
+
+        localStorage.setItem("accessToken", access);
+        localStorage.setItem("refreshToken", refresh);
+        console.log("Login successful");
+        actions.resetForm();
+        // navigate(ROUTES.HOME, { replace: true });
+        window.location.href = "/app/";
+      } catch (error) {
+        console.error("Login failed:", error);
+        alert("Login failed: " + (error.response.data.detail || "Invalid credentials"));
+        // if (error.response) {
+        //   alert("Login failed: " + (error.response.data.detail || "Invalid credentials"));
+        // } else {
+        //   alert("Login failed: Please check your connection or try again.");
+        // }
+      }
     },
   });
   console.log("errors", errors);

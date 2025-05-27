@@ -6,6 +6,13 @@ import { ArrowDown, Logo } from "@assets/svgs";
 import profile_img from "../../assets/images/profile_img.png";
 
 export function Header() {
+  // const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    window.location.href = "/app/login";
+  };
+
   return (
     <div className='flex items-center justify-between py-4 px-6 bg-[#000080]'>
       <Link to={ROUTES.HOME}>
@@ -29,7 +36,9 @@ export function Header() {
           <img src={profile_img} alt='profile' />
           <ArrowDown />
           <div className='absolute right-0 top-full w-max bg-[#191919] py-2 px-5 rounded-sm text-underline z-1 hidden group-hover:block'>
-            <p className='text-white cursor-pointer underline'>sign out</p>
+            <p onClick={handleLogout} className='text-white cursor-pointer underline'>
+              sign out
+            </p>
           </div>
         </div>
       </div>

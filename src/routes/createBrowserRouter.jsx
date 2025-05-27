@@ -23,10 +23,10 @@ export const router = createBrowserRouter(
       {/* <Route path={ROUTES.HOME} element={createPrivateRoute(Home)} /> */}
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.HOME} element={<Home />} />
-      <Route path={ROUTES.UN_AUTHORIZED} element={<Unauthorized />} />
-      <Route path={ROUTES.CRUD} element={<Crud />} />
       <Route path={ROUTES.TICKETS} element={<Tickets />} />
       <Route path={ROUTES.RESERVATION} element={<Reservation />} />
+      <Route path={ROUTES.UN_AUTHORIZED} element={<Unauthorized />} />
+      <Route path={ROUTES.CRUD} element={<Crud />} />
       <Route path={ROUTES.CRUD_AXIOS} element={<CrudAxios />} />
     </>
   ),
