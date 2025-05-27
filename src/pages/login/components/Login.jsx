@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 // useFormik is a custom hook for managing state and handling events.
 import { signInSchema } from "../../../schemas";
@@ -35,7 +35,7 @@ export function Login() {
     validationSchema: signInSchema,
     onSubmit: async (values, actions) => {
       try {
-        const response = await axios.post("http://54.164.99.34/api/token/", {
+        const response = await axios.post("http://54.164.99.34/app/login2/", {
           email: values.email,
           password: values.password,
         });
