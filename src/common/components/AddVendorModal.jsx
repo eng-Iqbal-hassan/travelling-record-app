@@ -1,51 +1,38 @@
 import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
-import { useState } from "react";
+import { useFormik } from "formik";
 
 export function AddVendorModal({ crossIconClick, dataSubmitted }) {
-  // const [form, setForm] = useState({});
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
-  const [number, setNumber] = useState("");
-  const [type, setType] = useState("");
-
-  // const handleChange = (key) => (e) => {
-  //   const value = e.target.value;
-  //   setForm({ ...form, [key]: value });
-  // };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const data = {
-      name,
-      email,
-      company,
-      number,
-      type,
-    };
-
-    console.log(data);
-    dataSubmitted();
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      companyName: "",
+      phoneNumber: "",
+      type: "",
+    },
+    onSubmit: (values) => {
+      console.log(values);
+      submitted();
+    },
+  });
+  const { values, handleChange, handleSubmit } = formik;
 
   return (
     <ModalWrapper>
       <ModalBody className='w-[600px]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Vendor</h1>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <label htmlFor=''>Name</label>
             <input
               type='text'
-              name=''
-              id=''
+              name='name'
               placeholder='Enter Name'
               className='bg-white rounded-md h-12 px-4'
-              onChange={(e) => setName(e.target.value)}
-              // onChange={handleChange("name")}
+              value={values.name}
+              onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
@@ -54,27 +41,24 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
             </label>
             <input
               type='email'
-              name=''
-              id=''
-              // value={form?.email}
+              name='email'
               placeholder='Enter Email'
               className='bg-white rounded-md h-12 px-4'
-              onChange={(e) => setEmail(e.target.value)}
-              // onChange={handleChange("email")}
+              value={values.email}
+              onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
             <label htmlFor='' className='text-black'>
-              Company Name
+              company Name
             </label>
             <input
               type='text'
-              name=''
-              id=''
-              placeholder='Enter Company Name'
+              name='companyName'
+              placeholder='Enter company Name'
               className='bg-white rounded-md h-12 px-4'
-              onChange={(e) => setCompany(e.target.value)}
-              // onChange={handleChange("company")}
+              value={values.companyName}
+              onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
@@ -83,12 +67,12 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
             </label>
             <input
               type='number'
-              name=''
-              id=''
+              name='phoneNumber
+'
               placeholder='Enter Mobile Number'
               className='bg-white rounded-md h-12 px-4'
-              onChange={(e) => setNumber(e.target.value)}
-              // onChange={handleChange("number")}
+              value={values.phoneNumber}
+              onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
@@ -97,8 +81,8 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
               name='type'
               id='type'
               className='bg-white rounded-md h-12 px-4'
-              onChange={(e) => setType(e.target.value)}
-              // onChange={handleChange("type")}
+              value={values.type}
+              onChange={handleChange}
             >
               <option value='' disabled hidden>
                 Select an option
