@@ -1,3 +1,3 @@
-export function TableRow({ children }) {
-  return <tr className='h-12'>{children}</tr>;
+export function TableRow({ children, className }) {
+  return <tr className={`h-12 ${className}`}>{children}</tr>;
 }

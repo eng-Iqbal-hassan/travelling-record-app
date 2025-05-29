@@ -6,27 +6,29 @@ import { useEffect, useState } from "react";
 export function Home() {
   const { data, isFetching, onClickTitle } = useHome();
   const [openVendorModal, setOpenVendorModal] = useState(false);
-
-  const handleCloseVendorModal = () => {
-    setOpenVendorModal(false);
-  };
   const [vendor, setVendor] = useState([]);
+
   const fetchData = async () => {
     try {
       const response = await axios.get("http://54.164.99.34//api/vendors/");
-      console.log("response", response);
       const data = response.data.vendors;
       setVendor(data);
     } catch (err) {
       console.error("error fetching data", err);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
 
+  const handleCloseVendorModal = () => {
+    setOpenVendorModal(false);
+    fetchData(); // Refresh vendor list after closing
+  };
+
   return isFetching ? (
-    <div> Loading...</div>
+    <div>Loading...</div>
   ) : (
     <div>
       <Header />
@@ -38,7 +40,7 @@ export function Home() {
         <VendorTable vendor={vendor} />
       </div>
       {openVendorModal && (
-        <AddVendorModal crossIconClick={handleCloseVendorModal} dataSubmitted={handleCloseVendorModal} />
+        <AddVendorModal crossIconClick={() => setOpenVendorModal(false)} dataAdded={handleCloseVendorModal} />
       )}
     </div>
   );

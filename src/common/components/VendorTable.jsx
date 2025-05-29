@@ -1,94 +1,6 @@
-import { Table, TableBody, TableHead, TableRow, Th, TableData } from "@common/components";
-import { useEffect, useState } from "react";
+import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
 
 export function VendorTable({ vendor }) {
-  // const vendorTableData = [
-  //   {
-  //     vendor: "Ali",
-  //     email: "Ali@gmail.com",
-  //     company: "Ali Co.",
-  //     mobile: "090",
-  //     type: "ticket",
-  //   },
-  //   {
-  //     vendor: "Ahmed",
-  //     email: "Ahmed@gmail.com",
-  //     company: "Ahmed Co.",
-  //     mobile: "091",
-  //     type: "hotel",
-  //   },
-  //   {
-  //     vendor: "Sara",
-  //     email: "Sara@gmail.com",
-  //     company: "Sara Co.",
-  //     mobile: "092",
-  //     type: "hotel",
-  //   },
-  //   {
-  //     vendor: "Zara",
-  //     email: "Zara@gmail.com",
-  //     company: "Zara Co.",
-  //     mobile: "093",
-  //     type: "ticket",
-  //   },
-  //   {
-  //     vendor: "Ali",
-  //     email: "Ali@gmail.com",
-  //     company: "Ali Co.",
-  //     mobile: "090",
-  //     type: "ticket",
-  //   },
-  //   {
-  //     vendor: "Ahmed",
-  //     email: "Ahmed@gmail.com",
-  //     company: "Ahmed Co.",
-  //     mobile: "091",
-  //     type: "hotel",
-  //   },
-  //   {
-  //     vendor: "Sara",
-  //     email: "Sara@gmail.com",
-  //     company: "Sara Co.",
-  //     mobile: "092",
-  //     type: "hotel",
-  //   },
-  //   {
-  //     vendor: "Zara",
-  //     email: "Zara@gmail.com",
-  //     company: "Zara Co.",
-  //     mobile: "093",
-  //     type: "ticket",
-  //   },
-  //   {
-  //     vendor: "Ali",
-  //     email: "Ali@gmail.com",
-  //     company: "Ali Co.",
-  //     mobile: "090",
-  //     type: "ticket",
-  //   },
-  //   {
-  //     vendor: "Ahmed",
-  //     email: "Ahmed@gmail.com",
-  //     company: "Ahmed Co.",
-  //     mobile: "091",
-  //     type: "hotel",
-  //   },
-  //   {
-  //     vendor: "Sara",
-  //     email: "Sara@gmail.com",
-  //     company: "Sara Co.",
-  //     mobile: "092",
-  //     type: "hotel",
-  //   },
-  //   {
-  //     vendor: "Zara",
-  //     email: "Zara@gmail.com",
-  //     company: "Zara Co.",
-  //     mobile: "093",
-  //     type: "ticket",
-  //   },
-  // ];
-
   return (
     <Table>
       <TableHead>
@@ -98,16 +10,21 @@ export function VendorTable({ vendor }) {
           <Th text='Company Name' />
           <Th text='Mobile Number' />
           <Th text='Type' />
+          <Th text='Action' />
         </TableRow>
       </TableHead>
       <TableBody>
         {vendor.map((item, index) => (
-          <TableRow key={index}>
+          <TableRow key={index} className='h-[3.75rem]'>
             <TableData text={item.name} />
             <TableData text={item.email} />
             <TableData text={item.companyName} />
             <TableData text={item.phoneNumber} />
             <TableData text={item.type} />
+            <div className='flex gap-2 p-2.5 w-fit'>
+              <Button type='button' title='Update' className='bg-blue-600' />
+              <Button type='button' title='delete' className='bg-blue-600' />
+            </div>
           </TableRow>
         ))}
       </TableBody>

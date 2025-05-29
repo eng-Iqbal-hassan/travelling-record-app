@@ -1,21 +1,28 @@
 import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useFormik } from "formik";
+import axios from "axios";
 
-export function AddVendorModal({ crossIconClick, dataSubmitted }) {
+export function AddVendorModal({ crossIconClick, dataAdded }) {
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
-      companyName: "",
-      phoneNumber: "",
+      company_name: "",
+      phone_number: "",
       type: "",
     },
-    onSubmit: (values) => {
-      console.log(values);
-      submitted();
+    onSubmit: async (values) => {
+      try {
+        const res = await axios.post("http://54.164.99.34//api/vendors/create/", values);
+        dataAdded();
+        crossIconClick();
+      } catch (err) {
+        console.error("Error submitting vendor:", err);
+      }
     },
   });
+
   const { values, handleChange, handleSubmit } = formik;
 
   return (
@@ -23,9 +30,9 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
       <ModalBody className='w-[600px]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Vendor</h1>
-        <form className='flex flex-col gap-4'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
-            <label htmlFor=''>Name</label>
+            <label>Name</label>
             <input
               type='text'
               name='name'
@@ -36,9 +43,7 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label htmlFor='' className='text-black'>
-              Email
-            </label>
+            <label>Email</label>
             <input
               type='email'
               name='email'
@@ -49,34 +54,29 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label htmlFor='' className='text-black'>
-              company Name
-            </label>
+            <label>Company Name</label>
             <input
               type='text'
-              name='companyName'
-              placeholder='Enter company Name'
+              name='company_name'
+              placeholder='Enter Company Name'
               className='bg-white rounded-md h-12 px-4'
-              value={values.companyName}
+              value={values.company_name}
               onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label htmlFor='' className='text-black'>
-              Mobile Number
-            </label>
+            <label>Mobile Number</label>
             <input
-              type='number'
-              name='phoneNumber
-'
+              type='text'
+              name='phone_number'
               placeholder='Enter Mobile Number'
               className='bg-white rounded-md h-12 px-4'
-              value={values.phoneNumber}
+              value={values.phone_number}
               onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label for='type'>Type</label>
+            <label htmlFor='type'>Type</label>
             <select
               name='type'
               id='type'
@@ -87,13 +87,14 @@ export function AddVendorModal({ crossIconClick, dataSubmitted }) {
               <option value='' disabled hidden>
                 Select an option
               </option>
-              <option value='ticket'>Ticket</option>
-              <option value='ticket'>Hotel</option>
+              <option value='TIC'>TIC</option>
+              <option value='HOT'>HOT</option>
             </select>
           </div>
           <div className='flex gap-3 justify-end'>
             <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
-            <Button className='bg-red-600' title='Cancel' />
+            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Update' />
+            <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
           </div>
         </form>
       </ModalBody>
