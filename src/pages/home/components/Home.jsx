@@ -1,4 +1,4 @@
-import { AddVendorModal, Button, Header, VendorTable } from "@common/components";
+import { AddEditVendorModal, Button, Header, VendorTable } from "@common/components";
 import { useHome } from "@pages/home";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -40,7 +40,7 @@ export function Home() {
         <VendorTable vendor={vendor} />
       </div>
       {openVendorModal && (
-        <AddVendorModal crossIconClick={() => setOpenVendorModal(false)} dataAdded={handleCloseVendorModal} />
+        <AddEditVendorModal crossIconClick={() => setOpenVendorModal(false)} dataAdded={handleCloseVendorModal} />
       )}
     </div>
   );

@@ -3,7 +3,7 @@ import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useFormik } from "formik";
 import axios from "axios";
 
-export function AddVendorModal({ crossIconClick, dataAdded }) {
+export function AddEditVendorModal({ crossIconClick, dataAdded }) {
   const formik = useFormik({
     initialValues: {
       name: "",
