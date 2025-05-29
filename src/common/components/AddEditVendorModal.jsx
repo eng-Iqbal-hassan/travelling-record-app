@@ -2,8 +2,9 @@ import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useFormik } from "formik";
 import axios from "axios";
+import { useEffect } from "react";
 
-export function AddEditVendorModal({ crossIconClick, dataAdded }) {
+export function AddEditVendorModal({ crossIconClick, dataAdded, initialData }) {
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -14,7 +15,11 @@ export function AddEditVendorModal({ crossIconClick, dataAdded }) {
     },
     onSubmit: async (values) => {
       try {
-        const res = await axios.post("http://54.164.99.34//api/vendors/create/", values);
+        if (initialData?.id) {
+          await axios.patch(`http://54.164.99.34//api/vendors/${initialData.id}/update/`, values);
+        } else {
+          await axios.post("http://54.164.99.34//api/vendors/create/", values);
+        }
         dataAdded();
         crossIconClick();
       } catch (err) {
@@ -23,13 +28,25 @@ export function AddEditVendorModal({ crossIconClick, dataAdded }) {
     },
   });
 
-  const { values, handleChange, handleSubmit } = formik;
+  const { values, handleChange, handleSubmit, setValues } = formik;
+
+  useEffect(() => {
+    if (initialData) {
+      setValues({
+        name: initialData.name || "",
+        email: initialData.email || "",
+        company_name: initialData.companyName || "",
+        phone_number: initialData.phoneNumber || "",
+        type: initialData.type || "",
+      });
+    }
+  }, [initialData]);
 
   return (
     <ModalWrapper>
       <ModalBody className='w-[600px]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
-        <h1>Add Vendor</h1>
+        <h1>{initialData ? "Edit Vendor" : "Add Vendor"}</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
             <label>Name</label>
@@ -92,8 +109,7 @@ export function AddEditVendorModal({ crossIconClick, dataAdded }) {
             </select>
           </div>
           <div className='flex gap-3 justify-end'>
-            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
-            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Update' />
+            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title={initialData ? "Update" : "Add"} />
             <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
           </div>
         </form>

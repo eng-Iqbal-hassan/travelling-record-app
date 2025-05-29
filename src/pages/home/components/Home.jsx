@@ -1,12 +1,15 @@
-import { AddEditVendorModal, Button, Header, VendorTable } from "@common/components";
+import { AddEditVendorModal, Button, DeleteModal, Header, VendorTable } from "@common/components";
 import { useHome } from "@pages/home";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export function Home() {
   const { data, isFetching, onClickTitle } = useHome();
-  const [openVendorModal, setOpenVendorModal] = useState(false);
   const [vendor, setVendor] = useState([]);
+  const [editVendorData, setEditVendorData] = useState(null);
+  const [openVendorModal, setOpenVendorModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [deleteVendorId, setDeleteVendorId] = useState(null);
 
   const fetchData = async () => {
     try {
@@ -23,8 +26,35 @@ export function Home() {
   }, []);
 
   const handleCloseVendorModal = () => {
+    setEditVendorData(null);
     setOpenVendorModal(false);
-    fetchData(); // Refresh vendor list after closing
+    fetchData();
+  };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteVendorId(null);
+    setOpenDeleteModal(false);
+  };
+
+  const handleUpdateClick = (vendorItem) => {
+    setEditVendorData(vendorItem);
+    setOpenVendorModal(true);
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteVendorId(id);
+    setOpenDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      await axios.delete(`http://54.164.99.34//api/vendors/${deleteVendorId}/delete/`);
+      fetchData(); // Refresh vendor list
+      setOpenDeleteModal(false);
+      setDeleteVendorId(null);
+    } catch (err) {
+      console.error("Error deleting vendor", err);
+    }
   };
 
   return isFetching ? (
@@ -37,10 +67,17 @@ export function Home() {
           <h2>Vendor</h2>
           <Button className='bg-[#000080]' title='Add Vendor' onClick={() => setOpenVendorModal(true)} />
         </div>
-        <VendorTable vendor={vendor} />
+        <VendorTable vendor={vendor} onUpdate={handleUpdateClick} handleDelete={handleDeleteClick} />
       </div>
       {openVendorModal && (
-        <AddEditVendorModal crossIconClick={() => setOpenVendorModal(false)} dataAdded={handleCloseVendorModal} />
+        <AddEditVendorModal
+          crossIconClick={handleCloseVendorModal}
+          dataAdded={handleCloseVendorModal}
+          initialData={editVendorData}
+        />
+      )}
+      {openDeleteModal && deleteVendorId && (
+        <DeleteModal confirmDelete={handleConfirmDelete} crossIconClick={handleCloseDeleteModal} />
       )}
     </div>
   );

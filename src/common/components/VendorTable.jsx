@@ -1,6 +1,6 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
 
-export function VendorTable({ vendor }) {
+export function VendorTable({ vendor, onUpdate, handleDelete }) {
   return (
     <Table>
       <TableHead>
@@ -22,8 +22,8 @@ export function VendorTable({ vendor }) {
             <TableData text={item.phoneNumber} />
             <TableData text={item.type} />
             <div className='flex gap-2 p-2.5 w-fit'>
-              <Button type='button' title='Update' className='bg-blue-600' />
-              <Button type='button' title='delete' className='bg-blue-600' />
+              <Button type='button' title='Update' className='bg-blue-600' onClick={() => onUpdate(item)} />
+              <Button type='button' title='delete' className='bg-blue-600' onClick={() => handleDelete(item.id)} />
             </div>
           </TableRow>
         ))}
