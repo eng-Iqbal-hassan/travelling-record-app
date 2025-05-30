@@ -25,6 +25,7 @@ export function ReactQuery() {
         console.log(obj);
         return [...POSTS];
       }),
+    // staleTime: 1000 * 60 * 5,
     // Take the things further, create the two components postsList1 and postsLists 2 and one of the two components is shown in the page using useEffect(component) and onClick on the two buttons, so whatever the component is in the page currently, its fetchStatus is fetching, the other component fetchStatus is idle and due to some reason the internet connection is lost then the fetchStatus of current page component is paused (in the fetching status and due to some reason not able to complete).
     // so what is the difference between the fetchingStatus and the normal status
     // At the page load -> query fetchingStatus is fetching and status is loading, when the query is fetched then the status will be success or error and in this case fetchStatus is idle.

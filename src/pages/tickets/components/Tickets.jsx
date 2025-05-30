@@ -14,6 +14,7 @@ export function Tickets() {
       console.log(response.data);
       return response.data.tickets;
     },
+    staleTime: 1000 * 60 * 5,
   });
   const handleSuccess = () => {
     setOpenTicketModal(false);
@@ -25,6 +26,7 @@ export function Tickets() {
       const response = await axios.get("http://54.164.99.34//api/vendors/");
       return response.data.vendors;
     },
+    staleTime: 1000 * 60 * 5,
   });
   return (
     <div>
