@@ -1,17 +1,29 @@
 import { Button, Header, TicketTable } from "@common/components";
 import { TicketModal } from "@common/components/TicketModal";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 export function Tickets() {
   const [openTicketModal, setOpenTicketModal] = useState(false);
+  const queryClient = useQueryClient();
   const ticketsQuery = useQuery({
     queryKey: ["tickets"],
     queryFn: async () => {
       const response = await axios.get("http://54.164.99.34//api/ticket/v1/");
       console.log(response.data);
       return response.data.tickets;
+    },
+  });
+  const handleSuccess = () => {
+    setOpenTicketModal(false);
+    queryClient.invalidateQueries(["tickets"]);
+  };
+  const vendorQuery = useQuery({
+    queryKey: ["vendors"],
+    queryFn: async () => {
+      const response = await axios.get("http://54.164.99.34//api/vendors/");
+      return response.data.vendors;
     },
   });
   return (
@@ -26,7 +38,11 @@ export function Tickets() {
         {ticketsQuery.data && <TicketTable data={ticketsQuery.data} />}
       </div>
       {openTicketModal && (
-        <TicketModal crossIconClick={() => setOpenTicketModal(false)} submitted={() => setOpenTicketModal(false)} />
+        <TicketModal
+          crossIconClick={() => setOpenTicketModal(false)}
+          success={handleSuccess}
+          vendors={vendorQuery.data}
+        />
       )}
     </div>
   );
