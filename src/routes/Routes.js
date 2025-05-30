@@ -6,4 +6,5 @@ export const ROUTES = {
   RESERVATION: "/reservation",
   TICKETS: "/tickets",
   CRUD_AXIOS: "/crud-axios",
+  REACT_QUERY: "/react-query",
 };
