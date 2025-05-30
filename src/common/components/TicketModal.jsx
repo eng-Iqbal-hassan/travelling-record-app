@@ -2,8 +2,19 @@ import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useEffect } from "react";
 import { useFormik } from "formik";
+import { date } from "yup";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
-export function TicketModal({ crossIconClick, submitted }) {
+export function TicketModal({ crossIconClick, success, vendors = [] }) {
+  const mutation = useMutation({
+    mutationFn: async (payload) => {
+      await axios.post("http://54.164.99.34//api/ticket/v1/", payload);
+    },
+    onSuccess: () => {
+      success();
+    },
+  });
   const formik = useFormik({
     initialValues: {
       vendor: "",
@@ -17,13 +28,22 @@ export function TicketModal({ crossIconClick, submitted }) {
       oldCount: 0,
       oldRate: 0,
       oldAmount: 0,
-      totalAmount: 0,
+      amount: 0,
       description: "",
-      paymentMethod: "",
+      payment_type: "",
     },
     onSubmit: (values) => {
-      console.log(values);
-      submitted();
+      const { vendor, date, amount, description, payment_type } = values;
+      const payload = {
+        amount,
+        date,
+        description,
+        dollar_price: 200,
+        payment_type,
+        riyal_price: 80,
+        vendor,
+      };
+      mutation.mutate(payload);
     },
   });
 
@@ -33,12 +53,12 @@ export function TicketModal({ crossIconClick, submitted }) {
     const childAmount = +values.childCount * +values.childRate;
     const adultAmount = +values.adultCount * +values.adultRate;
     const oldAmount = +values.oldCount * +values.oldRate;
-    const totalAmount = childAmount + adultAmount + oldAmount;
+    const amount = childAmount + adultAmount + oldAmount;
 
     setFieldValue("childAmount", childAmount);
     setFieldValue("adultAmount", adultAmount);
     setFieldValue("oldAmount", oldAmount);
-    setFieldValue("totalAmount", totalAmount);
+    setFieldValue("amount", amount);
   }, [values.childCount, values.childRate, values.adultCount, values.adultRate, values.oldCount, values.oldRate]);
 
   return (
@@ -60,8 +80,11 @@ export function TicketModal({ crossIconClick, submitted }) {
                 <option value='' disabled hidden>
                   Select an option
                 </option>
-                <option value='vendor1'>Vendor 1</option>
-                <option value='vendor2'>Vendor 2</option>
+                {vendors.map((vendor) => (
+                  <option key={vendor.id} value={vendor.id}>
+                    {vendor.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className='flex flex-col gap-2'>
@@ -175,9 +198,9 @@ export function TicketModal({ crossIconClick, submitted }) {
               <label>Total</label>
               <input
                 type='number'
-                name='totalAmount'
+                name='amount'
                 className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                value={values.totalAmount}
+                value={values.amount}
                 disabled
               />
             </div>
@@ -196,11 +219,11 @@ export function TicketModal({ crossIconClick, submitted }) {
               />
             </div>
             <div className='flex flex-col gap-2'>
-              <label htmlFor='paymentMethod'>Payment Method</label>
+              <label htmlFor='payment_type'>Payment Method</label>
               <select
-                name='paymentMethod'
+                name='payment_type'
                 className='bg-white rounded-md h-12 px-4'
-                value={values.paymentMethod}
+                value={values.payment_type}
                 onChange={handleChange}
               >
                 <option value='' disabled hidden>
