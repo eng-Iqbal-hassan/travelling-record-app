@@ -12,7 +12,7 @@ export function TicketTable({ data }) {
           <Th text='Debit (Sell)' />
           <Th text='Credit (Buy)' />
           <Th text='Balance' />
-          <Th text='Action' />
+          <Th className='w-40' text='Action' />
         </TableRow>
       </TableHead>
       <TableBody>
@@ -25,7 +25,7 @@ export function TicketTable({ data }) {
             <TableData text={item.debit || "-"} />
             <TableData text={item.credit || "-"} />
             <TableData text={item.balance || "-"} />
-            <div className='p-2.5'>
+            <div className='p-2.5 w-40 border-b border-[#ccc]'>
               <Button className='bg-blue-600' title='Email' />
             </div>
           </TableRow>
