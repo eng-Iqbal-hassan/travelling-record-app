@@ -14,6 +14,19 @@ export function Reservation() {
     },
     staleTime: 1000 * 60 * 5,
   });
+  const handleSuccess = () => {
+    setOpenReservationModal(false);
+    queryClient.invalidateQueries(["hotels"]);
+  };
+  const vendorQuery = useQuery({
+    queryKey: ["vendors"],
+    queryFn: async () => {
+      const response = await axios.get("http://54.164.99.34//api/vendors/?type=HOT");
+      return response.data.vendors;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+
   return (
     <div>
       <Header />
@@ -27,7 +40,8 @@ export function Reservation() {
       {openReservationModal && (
         <AddReservationModal
           crossIconClick={() => setOpenReservationModal(false)}
-          submitted={() => setOpenReservationModal(false)}
+          success={handleSuccess}
+          vendors={vendorQuery.data}
         />
       )}
     </div>
