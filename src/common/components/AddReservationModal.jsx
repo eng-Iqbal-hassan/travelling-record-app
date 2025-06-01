@@ -83,6 +83,7 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
       ].filter((meal) => meal.count > 0);
 
       const payload = {
+        vendor,
         checked_in,
         checked_out,
         dollar_price: 120,
@@ -90,13 +91,12 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
         meals: mealsArray,
         name,
         nts,
-        payment_type: "credit",
         pkr_amount,
         reservation_no,
         riyal_price: 90,
         rooms: roomsArray,
         temp_reservation_no: reservation_no,
-        vendor,
+        payment_type,
       };
       mutation.mutate(payload);
       console.log(payload);
@@ -106,14 +106,14 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
 
   useEffect(() => {
     const roomAmount =
-      +values.single * +values.singleRate +
-      +values.double * +values.doubleRate +
-      +values.triple * +values.tripleRate +
-      +values.quadratic * +values.quadraticRate;
+      +values.single * +values.singleRate * +values.nts +
+      +values.double * +values.doubleRate * +values.nts +
+      +values.triple * +values.tripleRate * +values.nts +
+      +values.quadratic * +values.quadraticRate * +values.nts;
     const mealAmount =
-      +values.breakfast * +values.breakfastRate +
-      +values.lunch * +values.lunchRate +
-      +values.dinner * +values.dinnerRate;
+      +values.breakfast * +values.breakfastRate * +values.nts +
+      +values.lunch * +values.lunchRate * +values.nts +
+      +values.dinner * +values.dinnerRate * +values.nts;
     const pkr_amount = roomAmount + mealAmount;
 
     setFieldValue("roomAmount", roomAmount);
@@ -134,6 +134,7 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
     values.lunchRate,
     values.dinner,
     values.dinnerRate,
+    values.nts,
   ]);
 
   return (
