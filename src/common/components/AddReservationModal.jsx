@@ -6,6 +6,8 @@ import { useFormik } from "formik";
 import { useEffect } from "react";
 
 export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
+  const credit = "credit";
+  const debit = "debit";
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34//api/hotels/", payload);
@@ -83,7 +85,7 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
       ].filter((meal) => meal.count > 0);
 
       const payload = {
-        vendor,
+        vendor: vendor,
         checked_in,
         checked_out,
         dollar_price: 120,
@@ -96,7 +98,7 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
         riyal_price: 90,
         rooms: roomsArray,
         temp_reservation_no: reservation_no,
-        payment_type,
+        payment_type: payment_type,
       };
       mutation.mutate(payload);
       console.log(payload);
@@ -502,8 +504,8 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
                   <option value='' disabled hidden>
                     Select Payment Type
                   </option>
-                  <option value='credit'>Credit</option>
-                  <option value='vendor'>Debit</option>
+                  <option value={credit}>Credit</option>
+                  <option value={debit}>Debit</option>
                 </select>
               </div>
             </div>
