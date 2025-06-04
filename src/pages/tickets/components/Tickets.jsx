@@ -42,8 +42,8 @@ export function Tickets() {
             <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
 
             <select
-              name='cars'
-              id='cars'
+              name='vendors'
+              id='vendors'
               className='border border-[#00000080] w-[15rem] rounded-md'
               value={selectedVendor}
               onChange={(e) => setSelectedVendor(e.target.value)}
