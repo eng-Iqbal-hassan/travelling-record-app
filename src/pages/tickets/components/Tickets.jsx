@@ -3,6 +3,7 @@ import { TicketModal } from "@common/components/TicketModal";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function Tickets() {
   const [openTicketModal, setOpenTicketModal] = useState(false);
@@ -19,6 +20,7 @@ export function Tickets() {
   const handleSuccess = () => {
     setOpenTicketModal(false);
     queryClient.invalidateQueries(["tickets"]);
+    toast.success("Ticket created successfully!");
   };
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
