@@ -104,8 +104,8 @@ export function AddEditVendorModal({ crossIconClick, dataAdded, initialData }) {
               <option value='' disabled hidden>
                 Select an option
               </option>
-              <option value='TIC'>TIC</option>
-              <option value='HOT'>HOT</option>
+              <option value='TIC'>Ticket</option>
+              <option value='HOT'>Hotel</option>
             </select>
           </div>
           <div className='flex gap-3 justify-end'>

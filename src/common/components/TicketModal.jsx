@@ -2,7 +2,6 @@ import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useEffect } from "react";
 import { useFormik } from "formik";
-import { date } from "yup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 

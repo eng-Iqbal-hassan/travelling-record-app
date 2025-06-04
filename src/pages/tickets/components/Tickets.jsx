@@ -20,10 +20,13 @@ export function Tickets() {
     setOpenTicketModal(false);
     queryClient.invalidateQueries(["tickets"]);
   };
+  const handleAddTicket = () => {
+    setOpenTicketModal(true);
+  };
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
     queryFn: async () => {
-      const response = await axios.get("http://54.164.99.34//api/vendors/");
+      const response = await axios.get("http://54.164.99.34//api/vendors/?type=TIC");
       return response.data.vendors;
     },
     staleTime: 1000 * 60 * 5,
@@ -34,7 +37,7 @@ export function Tickets() {
       <div className='flex flex-col gap-5 py-4 px-8'>
         <div className='flex justify-between items-center'>
           <h2>Ticket</h2>
-          <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
+          <Button className='bg-[#000080]' title='Add Ticket' onClick={handleAddTicket} />
         </div>
         {ticketsQuery.error && <p>Error Loading Tickets.</p>}
         {ticketsQuery.data && <TicketTable data={ticketsQuery.data} />}

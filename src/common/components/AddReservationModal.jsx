@@ -1,19 +1,31 @@
 import { CrossIcon } from "@assets/svgs";
 import { Button, ModalBody, ModalWrapper } from "@common/components";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 
-export function AddReservationModal({ crossIconClick }) {
+export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
+  const credit = "credit";
+  const debit = "debit";
+  const mutation = useMutation({
+    mutationFn: async (payload) => {
+      await axios.post("http://54.164.99.34//api/hotels/", payload);
+    },
+    onSuccess: () => {
+      success();
+    },
+  });
   const formik = useFormik({
     initialValues: {
       vendor: "",
-      checkedInDate: "",
-      checkedOutDate: "",
-      hotelName: "",
-      reservationNumber: "",
-      guestName: "",
+      checked_in: "",
+      checked_out: "",
+      name: "",
+      reservation_no: "",
+      guest_name: "",
       view: "",
-      nights: 0,
+      nts: 0,
       single: 0,
       double: 0,
       triple: 0,
@@ -30,31 +42,85 @@ export function AddReservationModal({ crossIconClick }) {
       lunchRate: 0,
       dinnerRate: 0,
       mealAmount: 0,
-      totalAmount: 0,
-      paymentType: "",
+      pkr_amount: 0,
+      payment_type: "",
     },
     onSubmit: (values) => {
-      console.log(values);
-      submitted();
+      const {
+        vendor,
+        checked_in,
+        checked_out,
+        name,
+        reservation_no,
+        guest_name,
+        nts,
+        single,
+        double,
+        triple,
+        quadratic,
+        singleRate,
+        doubleRate,
+        tripleRate,
+        quadraticRate,
+        breakfast,
+        lunch,
+        dinner,
+        breakfastRate,
+        lunchRate,
+        dinnerRate,
+        pkr_amount,
+        payment_type,
+      } = values;
+      const roomsArray = [
+        { type: 1, count: single, rate_per_night: singleRate },
+        { type: 2, count: double, rate_per_night: doubleRate },
+        { type: 3, count: triple, rate_per_night: tripleRate },
+        { type: 4, count: quadratic, rate_per_night: quadraticRate },
+      ].filter((room) => room.count > 0);
+
+      const mealsArray = [
+        { type: "BF", count: breakfast, rate_per_night: breakfastRate },
+        { type: "LU", count: lunch, rate_per_night: lunchRate },
+        { type: "DI", count: dinner, rate_per_night: dinnerRate },
+      ].filter((meal) => meal.count > 0);
+
+      const payload = {
+        vendor: vendor,
+        checked_in,
+        checked_out,
+        dollar_price: 120,
+        guest_name,
+        meals: mealsArray,
+        name,
+        nts,
+        pkr_amount,
+        reservation_no,
+        riyal_price: 90,
+        rooms: roomsArray,
+        temp_reservation_no: reservation_no,
+        payment_type: payment_type,
+      };
+      mutation.mutate(payload);
+      console.log(payload);
     },
   });
   const { values, handleChange, handleSubmit, setFieldValue } = formik;
 
   useEffect(() => {
     const roomAmount =
-      +values.single * +values.singleRate +
-      +values.double * +values.doubleRate +
-      +values.triple * +values.tripleRate +
-      +values.quadratic * +values.quadraticRate;
+      +values.single * +values.singleRate * +values.nts +
+      +values.double * +values.doubleRate * +values.nts +
+      +values.triple * +values.tripleRate * +values.nts +
+      +values.quadratic * +values.quadraticRate * +values.nts;
     const mealAmount =
-      +values.breakfast * +values.breakfastRate +
-      +values.lunch * +values.lunchRate +
-      +values.dinner * +values.dinnerRate;
-    const totalAmount = roomAmount + mealAmount;
+      +values.breakfast * +values.breakfastRate * +values.nts +
+      +values.lunch * +values.lunchRate * +values.nts +
+      +values.dinner * +values.dinnerRate * +values.nts;
+    const pkr_amount = roomAmount + mealAmount;
 
     setFieldValue("roomAmount", roomAmount);
     setFieldValue("mealAmount", mealAmount);
-    setFieldValue("totalAmount", totalAmount);
+    setFieldValue("pkr_amount", pkr_amount);
   }, [
     values.single,
     values.singleRate,
@@ -70,6 +136,7 @@ export function AddReservationModal({ crossIconClick }) {
     values.lunchRate,
     values.dinner,
     values.dinnerRate,
+    values.nts,
   ]);
 
   return (
@@ -92,8 +159,11 @@ export function AddReservationModal({ crossIconClick }) {
                   <option value='' disabled hidden>
                     Select a vendor
                   </option>
-                  <option value='vendor1'>Vendor 1</option>
-                  <option value='vendor2'>Vendor 2</option>
+                  {vendors.map((vendor) => (
+                    <option key={vendor.id} value={vendor.id}>
+                      {vendor.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className='flex gap-2'>
@@ -101,9 +171,9 @@ export function AddReservationModal({ crossIconClick }) {
                   <label htmlFor=''>Checked In</label>
                   <input
                     type='date'
-                    name='checkedInDate'
-                    id='checkedInDate'
-                    value={values.checkedInDate}
+                    name='checked_in'
+                    id='checked_in'
+                    value={values.checked_in}
                     onChange={handleChange}
                     placeholder='dd/mm/yyyy'
                     className='bg-white rounded-md h-12 px-4 w-full'
@@ -113,9 +183,9 @@ export function AddReservationModal({ crossIconClick }) {
                   <label htmlFor=''>Checked Out</label>
                   <input
                     type='date'
-                    name='checkedOutDate'
-                    id='checkedOutDate'
-                    value={values.checkedOutDate}
+                    name='checked_out'
+                    id='checked_out'
+                    value={values.checked_out}
                     onChange={handleChange}
                     placeholder='dd/mm/yyyy'
                     className='bg-white rounded-md h-12 px-4 w-full'
@@ -126,37 +196,37 @@ export function AddReservationModal({ crossIconClick }) {
                 <label htmlFor=''>Hotel Name</label>
                 <input
                   type='text'
-                  name='hotelName'
-                  id='hotelName'
-                  value={values.hotelName}
+                  name='name'
+                  id='name'
+                  value={values.name}
                   onChange={handleChange}
                   placeholder='Enter Hotel Name'
                   className='bg-white rounded-md h-12 px-4'
                 />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='reservationNumber' className='text-black'>
+                <label htmlFor='reservation_no' className='text-black'>
                   Reservation Number
                 </label>
                 <input
                   type='text'
-                  name='reservationNumber'
-                  id='reservationNumber'
-                  value={values.reservationNumber}
+                  name='reservation_no'
+                  id='reservation_no'
+                  value={values.reservation_no}
                   onChange={handleChange}
                   placeholder='Enter Reservation Number'
                   className='bg-white rounded-md h-12 px-4'
                 />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='guestName' className='text-black'>
+                <label htmlFor='guest_name' className='text-black'>
                   Guest Name
                 </label>
                 <input
                   type='text'
-                  name='guestName'
-                  id='guestName'
-                  value={values.guestName}
+                  name='guest_name'
+                  id='guest_name'
+                  value={values.guest_name}
                   onChange={handleChange}
                   placeholder='Enter Guest Name'
                   className='bg-white rounded-md h-12 px-4'
@@ -177,14 +247,14 @@ export function AddReservationModal({ crossIconClick }) {
                 />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='nights' className='text-black'>
+                <label htmlFor='nts' className='text-black'>
                   NTS
                 </label>
                 <input
                   type='number'
-                  name='nights'
-                  id='nights'
-                  value={values.nights}
+                  name='nts'
+                  id='nts'
+                  value={values.nts}
                   onChange={handleChange}
                   placeholder='Enter NTS'
                   className='bg-white rounded-md h-12 px-4'
@@ -369,7 +439,7 @@ export function AddReservationModal({ crossIconClick }) {
                         type='number'
                         name='dinnerRate'
                         id='dinnerRate'
-                        value={values.handleChange}
+                        value={values.dinnerRate}
                         onChange={handleChange}
                         placeholder='Enter'
                         className='bg-white rounded-md h-12 px-4 w-full'
@@ -409,39 +479,43 @@ export function AddReservationModal({ crossIconClick }) {
                 </div>
               </div>
               <div className='flex flex-1 flex-col gap-2'>
-                <label htmlFor='totalAmount' className='text-black'>
+                <label htmlFor='pkr_amount' className='text-black'>
                   Enter Payment Amount
                 </label>
                 <input
                   type='text'
-                  name='totalAmount'
-                  id='totalAmount'
-                  value={values.totalAmount}
+                  name='pkr_amount'
+                  id='pkr_amount'
+                  value={values.pkr_amount}
                   disabled
                   placeholder='Enter Amount'
                   className='bg-white rounded-md h-12 px-4'
                 />
               </div>
               <div className='flex flex-1 flex-col gap-2'>
-                <label for='paymentType'>Payment Type</label>
+                <label for='payment_type'>Payment Type</label>
                 <select
-                  name='paymentType'
-                  id='paymentType'
-                  value={values.paymentType}
+                  name='payment_type'
+                  id='payment_type'
+                  value={values.payment_type}
                   onChange={handleChange}
                   className='bg-white rounded-md h-12 px-4'
                 >
                   <option value='' disabled hidden>
                     Select Payment Type
                   </option>
-                  <option value='vendor1'>Card</option>
-                  <option value='vendor2'>Cash</option>
+                  <option value={credit}>Credit</option>
+                  <option value={debit}>Debit</option>
                 </select>
               </div>
             </div>
           </div>
           <div className='flex gap-3 justify-end'>
-            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
+            <Button
+              type='submit'
+              className='bg-blue-600 min-w-[3.75rem]'
+              title={mutation.isLoading ? "Submitting..." : "Submit"}
+            />
             <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
           </div>
         </form>
