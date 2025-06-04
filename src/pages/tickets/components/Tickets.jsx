@@ -10,20 +10,6 @@ export function Tickets() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openTicketModal, setOpenTicketModal] = useState(false);
   const queryClient = useQueryClient();
-  const ticketsQuery = useQuery({
-    queryKey: ["tickets"],
-    queryFn: async () => {
-      const response = await axios.get("http://54.164.99.34//api/ticket/v1/");
-      console.log(response.data);
-      return response.data.tickets;
-    },
-    staleTime: 1000 * 60 * 5,
-  });
-  const handleSuccess = () => {
-    setOpenTicketModal(false);
-    queryClient.invalidateQueries(["tickets"]);
-    toast.success("Ticket created successfully!");
-  };
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
     queryFn: async () => {
@@ -32,6 +18,23 @@ export function Tickets() {
     },
     staleTime: 1000 * 60 * 5,
   });
+  const ticketsQuery = useQuery({
+    queryKey: ["tickets", selectedVendor],
+    queryFn: async () => {
+      const url = selectedVendor
+        ? `http://54.164.99.34/api/vendors/tickets/${selectedVendor}/`
+        : `http://54.164.99.34//api/ticket/v1/`;
+      const response = await axios.get(url);
+      console.log(response.data);
+      return response.data.tickets;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+  const handleSuccess = () => {
+    setOpenTicketModal(false);
+    queryClient.invalidateQueries(["tickets", selectedVendor]);
+    toast.success("Ticket created successfully!");
+  };
   return (
     <div>
       <Header />
@@ -51,6 +54,7 @@ export function Tickets() {
               <option value='' disabled>
                 Select an option
               </option>
+              <option value=''>All</option>
               {vendorQuery.isSuccess &&
                 vendorQuery?.data.map((vendor) => (
                   <option key={vendor.id} value={vendor.id}>

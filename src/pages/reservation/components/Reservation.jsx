@@ -7,18 +7,6 @@ export function Reservation() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openReservationModal, setOpenReservationModal] = useState(false);
   const queryClient = useQueryClient();
-  const hotelsQuery = useQuery({
-    queryKey: ["hotels"],
-    queryFn: async () => {
-      const response = await axios.get("http://54.164.99.34//api/hotels/all/");
-      return response.data.hotels;
-    },
-    staleTime: 1000 * 60 * 5,
-  });
-  const handleSuccess = () => {
-    setOpenReservationModal(false);
-    queryClient.invalidateQueries(["hotels"]);
-  };
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
     queryFn: async () => {
@@ -27,6 +15,22 @@ export function Reservation() {
     },
     staleTime: 1000 * 60 * 5,
   });
+  const hotelsQuery = useQuery({
+    queryKey: ["hotels", selectedVendor], // key includes selectedVendor
+    queryFn: async () => {
+      const url = selectedVendor
+        ? `http://54.164.99.34/api/vendors/hotels/${selectedVendor}/`
+        : `http://54.164.99.34/api/hotels/all/`;
+      const response = await axios.get(url);
+      return response.data.hotels;
+    },
+    staleTime: 1000 * 60 * 5,
+    enabled: vendorQuery.isSuccess, // ensures it runs after vendors are loaded
+  });
+  const handleSuccess = () => {
+    setOpenReservationModal(false);
+    queryClient.invalidateQueries(["hotels", selectedVendor]);
+  };
 
   return (
     <div>
@@ -46,6 +50,7 @@ export function Reservation() {
               <option value='' disabled>
                 Select an option
               </option>
+              <option value=''>All</option>
               {vendorQuery.isSuccess &&
                 vendorQuery?.data.map((vendor) => (
                   <option key={vendor.id} value={vendor.id}>
