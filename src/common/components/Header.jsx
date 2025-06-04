@@ -28,6 +28,9 @@ export function Header() {
         <li>
           <Link to={ROUTES.RESERVATION}>Hotel</Link>
         </li>
+        <li>
+          <Link to={ROUTES.VISA}>Visa</Link>
+        </li>
       </ul>
       <div className='flex gap-3'>
         <Input placeholder='USD Rate' />
