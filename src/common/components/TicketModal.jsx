@@ -65,11 +65,11 @@ export function TicketModal({ crossIconClick, success, vendors = [] }) {
     <ModalWrapper>
       <ModalBody className='w-[37.5rem]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
-        <h1>Add Ticket Detail</h1>
+        <h1 className='text-xl font-bold'>Add Ticket Detail</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           {/* VENDOR & DATE */}
-          <div className='flex flex-col gap-4 pb-4 border-b border-solid border-gray-300'>
-            <div className='flex flex-col gap-2'>
+          <div className='flex gap-4'>
+            <div className='flex flex-col gap-2 w-full'>
               <label htmlFor='vendor'>To</label>
               <select
                 name='vendor'
@@ -87,12 +87,12 @@ export function TicketModal({ crossIconClick, success, vendors = [] }) {
                 ))}
               </select>
             </div>
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-2 w-full'>
               <label htmlFor='date'>Date</label>
               <input
                 type='date'
                 name='date'
-                className='bg-white rounded-md h-12 px-4'
+                className='max-h-9 bg-white rounded-md h-12 px-4'
                 value={values.date}
                 onChange={handleChange}
               />
@@ -100,109 +100,118 @@ export function TicketModal({ crossIconClick, success, vendors = [] }) {
           </div>
 
           {/* TICKETS SECTION */}
-          <div className='flex flex-col gap-6 pb-4 border-b border-solid border-gray-300'>
-            <h2>Tickets</h2>
 
-            {/* CHILD */}
-            <div className='flex flex-col gap-2'>
-              <label>Child</label>
-              <div className='flex gap-3'>
+          <div>
+            <div className='flex gap-2 mb-2'>
+              <div className='min-w-10'></div>
+              <div className='flex gap-3 w-full'>
+                <div className='w-full'>Count</div>
+                <div className='w-full'>Rate</div>
+                <div className='min-w-[15.1875rem]'>Total</div>
+              </div>
+            </div>
+            <div className='flex flex-col gap-4'>
+              {/* CHILD */}
+              <div className='flex gap-2 items-center'>
+                <label className='min-w-10'>Child</label>
+                <div className='flex gap-3'>
+                  <input
+                    type='number'
+                    name='childCount'
+                    placeholder='Count'
+                    className='max-h-9 bg-white rounded-md h-12 px-4 w-full'
+                    value={values.childCount}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type='number'
+                    name='childRate'
+                    placeholder='Rate'
+                    className='max-h-9 bg-white rounded-md h-12 px-4 w-full'
+                    value={values.childRate}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type='number'
+                    name='childAmount'
+                    className='bg-gray-200 rounded-md h-12 px-4 min-w-[15.1875rem] max-h-9'
+                    value={values.childAmount}
+                    disabled
+                  />
+                </div>
+              </div>
+
+              {/* ADULT */}
+              <div className='flex gap-2 items-center'>
+                <label className='min-w-10'>Adult</label>
+                <div className='flex gap-3'>
+                  <input
+                    type='number'
+                    name='adultCount'
+                    placeholder='Count'
+                    className='max-h-9 bg-white rounded-md h-12 px-4 w-full'
+                    value={values.adultCount}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type='number'
+                    name='adultRate'
+                    placeholder='Rate'
+                    className='max-h-9 bg-white rounded-md h-12 px-4 w-full'
+                    value={values.adultRate}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type='number'
+                    name='adultAmount'
+                    className='max-h-9 bg-gray-200 rounded-md h-12 px-4 min-w-[15.1875rem]'
+                    value={values.adultAmount}
+                    disabled
+                  />
+                </div>
+              </div>
+
+              {/* OLD */}
+              <div className='flex gap-2 items-center'>
+                <label className='min-w-10'>Old</label>
+                <div className='flex gap-3'>
+                  <input
+                    type='number'
+                    name='oldCount'
+                    placeholder='Count'
+                    className='max-h-9 bg-white rounded-md h-12 px-4 w-full'
+                    value={values.oldCount}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type='number'
+                    name='oldRate'
+                    placeholder='Rate'
+                    className='max-h-9 bg-white rounded-md h-12 px-4 w-full'
+                    value={values.oldRate}
+                    onChange={handleChange}
+                  />
+                  <input
+                    type='number'
+                    name='oldAmount'
+                    className='max-h-9 bg-gray-200 rounded-md h-12 px-4 min-w-[15.1875rem]'
+                    value={values.oldAmount}
+                    disabled
+                  />
+                </div>
+              </div>
+
+              {/* TOTAL */}
+              <div className='flex items-center gap-2'>
+                <label className='min-w-10'>Total</label>
                 <input
                   type='number'
-                  name='childCount'
-                  placeholder='Count'
-                  className='bg-white rounded-md h-12 px-4 w-full'
-                  value={values.childCount}
-                  onChange={handleChange}
-                />
-                <input
-                  type='number'
-                  name='childRate'
-                  placeholder='Rate'
-                  className='bg-white rounded-md h-12 px-4 w-full'
-                  value={values.childRate}
-                  onChange={handleChange}
+                  name='amount'
+                  className='max-h-9 bg-gray-200 rounded-md h-12 px-4 min-w-[15.1875rem]'
+                  value={values.amount}
+                  disabled
                 />
               </div>
-              <input
-                type='number'
-                name='childAmount'
-                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                value={values.childAmount}
-                disabled
-              />
-            </div>
-
-            {/* ADULT */}
-            <div className='flex flex-col gap-2'>
-              <label>Adult</label>
-              <div className='flex gap-3'>
-                <input
-                  type='number'
-                  name='adultCount'
-                  placeholder='Count'
-                  className='bg-white rounded-md h-12 px-4 w-full'
-                  value={values.adultCount}
-                  onChange={handleChange}
-                />
-                <input
-                  type='number'
-                  name='adultRate'
-                  placeholder='Rate'
-                  className='bg-white rounded-md h-12 px-4 w-full'
-                  value={values.adultRate}
-                  onChange={handleChange}
-                />
-              </div>
-              <input
-                type='number'
-                name='adultAmount'
-                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                value={values.adultAmount}
-                disabled
-              />
-            </div>
-
-            {/* OLD */}
-            <div className='flex flex-col gap-2'>
-              <label>Old</label>
-              <div className='flex gap-3'>
-                <input
-                  type='number'
-                  name='oldCount'
-                  placeholder='Count'
-                  className='bg-white rounded-md h-12 px-4 w-full'
-                  value={values.oldCount}
-                  onChange={handleChange}
-                />
-                <input
-                  type='number'
-                  name='oldRate'
-                  placeholder='Rate'
-                  className='bg-white rounded-md h-12 px-4 w-full'
-                  value={values.oldRate}
-                  onChange={handleChange}
-                />
-              </div>
-              <input
-                type='number'
-                name='oldAmount'
-                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                value={values.oldAmount}
-                disabled
-              />
-            </div>
-
-            {/* TOTAL */}
-            <div className='flex flex-col gap-2'>
-              <label>Total</label>
-              <input
-                type='number'
-                name='amount'
-                className='bg-gray-200 rounded-md h-12 px-4 w-[15.1875rem]'
-                value={values.amount}
-                disabled
-              />
             </div>
           </div>
 

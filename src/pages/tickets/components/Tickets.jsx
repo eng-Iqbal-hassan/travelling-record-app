@@ -4,8 +4,13 @@ import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 export function Tickets() {
+  const options = [
+    { value: "apple", label: "Apple" },
+    { value: "banana", label: "Banana" },
+  ];
   const [openTicketModal, setOpenTicketModal] = useState(false);
   const queryClient = useQueryClient();
   const ticketsQuery = useQuery({
