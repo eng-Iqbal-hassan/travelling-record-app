@@ -24,13 +24,10 @@ export function Tickets() {
     queryClient.invalidateQueries(["tickets"]);
     toast.success("Ticket created successfully!");
   };
-  const handleAddTicket = () => {
-    setOpenTicketModal(true);
-  };
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
     queryFn: async () => {
-      const response = await axios.get("http://54.164.99.34//api/vendors/?type=TIC");
+      const response = await axios.get("http://54.164.99.34//api/vendors");
       return response.data.vendors;
     },
     staleTime: 1000 * 60 * 5,
