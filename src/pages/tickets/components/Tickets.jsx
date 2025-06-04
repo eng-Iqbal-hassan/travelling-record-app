@@ -7,10 +7,7 @@ import { toast } from "react-toastify";
 import Select from "react-select";
 
 export function Tickets() {
-  const options = [
-    { value: "apple", label: "Apple" },
-    { value: "banana", label: "Banana" },
-  ];
+  const [selectedVendor, setSelectedVendor] = useState("");
   const [openTicketModal, setOpenTicketModal] = useState(false);
   const queryClient = useQueryClient();
   const ticketsQuery = useQuery({
@@ -41,7 +38,27 @@ export function Tickets() {
       <div className='flex flex-col gap-5 py-4 px-8'>
         <div className='flex justify-between items-center'>
           <h2>Ticket</h2>
-          <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
+          <div className='flex gap-2'>
+            <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
+
+            <select
+              name='cars'
+              id='cars'
+              className='border border-[#00000080] w-[15rem] rounded-md'
+              value={selectedVendor}
+              onChange={(e) => setSelectedVendor(e.target.value)}
+            >
+              <option value='' disabled>
+                Select an option
+              </option>
+              {vendorQuery.isSuccess &&
+                vendorQuery?.data.map((vendor) => (
+                  <option key={vendor.id} value={vendor.id}>
+                    {vendor.name}
+                  </option>
+                ))}
+            </select>
+          </div>
         </div>
         {ticketsQuery.error && <p>Error Loading Tickets.</p>}
         {ticketsQuery.data && <TicketTable data={ticketsQuery.data} />}
