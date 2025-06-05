@@ -6,8 +6,6 @@ import { ArrowDown, Logo } from "@assets/svgs";
 import profile_img from "../../assets/images/profile_img.png";
 
 export function Header() {
-  console.log(location.pathname === ROUTES.TICKETS);
-
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     window.location.href = "/app/login";

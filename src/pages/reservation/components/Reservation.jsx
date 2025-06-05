@@ -1,4 +1,4 @@
-import { AddReservationModal, Button, Header, ReservationTable } from "@common/components";
+import { AddReservationModal, Button, Header, HotelDetailModal, ReservationTable } from "@common/components";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -6,6 +6,7 @@ import axios from "axios";
 export function Reservation() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openReservationModal, setOpenReservationModal] = useState(false);
+  const [openReservationDetailModal, setOpenReservationDetailModal] = useState(false);
   const queryClient = useQueryClient();
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
@@ -60,7 +61,9 @@ export function Reservation() {
             </select>
           </div>
         </div>
-        {hotelsQuery.data && <ReservationTable data={hotelsQuery.data} />}
+        {hotelsQuery.data && (
+          <ReservationTable data={hotelsQuery.data} onClick={() => setOpenReservationDetailModal(true)} />
+        )}
       </div>
       {openReservationModal && (
         <AddReservationModal
@@ -69,6 +72,7 @@ export function Reservation() {
           vendors={vendorQuery.data}
         />
       )}
+      {openReservationDetailModal && <HotelDetailModal crossIconClick={() => setOpenReservationDetailModal(false)} />}
     </div>
   );
 }
