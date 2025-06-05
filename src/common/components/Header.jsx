@@ -1,13 +1,11 @@
 import React from "react";
 import { Input } from "@common/components";
 import { ROUTES } from "@routes";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ArrowDown, Logo } from "@assets/svgs";
 import profile_img from "../../assets/images/profile_img.png";
 
 export function Header() {
-  // const navigate = useNavigate();
-  const location = useLocation();
   console.log(location.pathname === ROUTES.TICKETS);
 
   const handleLogout = () => {
@@ -17,32 +15,29 @@ export function Header() {
 
   return (
     <div className='flex items-center justify-between py-4 px-6 bg-[#000080]'>
-      <Link to={ROUTES.HOME}>
+      <NavLink to={ROUTES.HOME} className='link'>
         <Logo />
-      </Link>
+      </NavLink>
       <ul className='flex gap-6 text-white'>
         <li>
-          <Link to={ROUTES.HOME} className={location.pathname === ROUTES.HOME ? "opacity-100" : "opacity-70"}>
+          <NavLink to={ROUTES.HOME} className='link'>
             Vendor
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to={ROUTES.TICKETS} className={location.pathname === ROUTES.TICKETS ? "opacity-100" : "opacity-70"}>
+          <NavLink to={ROUTES.TICKETS} className='link'>
             Tickets
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link
-            to={ROUTES.RESERVATION}
-            className={location.pathname === ROUTES.RESERVATION ? "opacity-100" : "opacity-70"}
-          >
+          <NavLink to={ROUTES.RESERVATION} className='link'>
             Hotel
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to={ROUTES.VISA} className={location.pathname === ROUTES.VISA ? "opacity-100" : "opacity-70"}>
+          <NavLink to={ROUTES.VISA} className='link'>
             Visa
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <div className='flex gap-3'>

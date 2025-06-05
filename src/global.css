@@ -1,8 +1,14 @@
 .table-wrapper {
-  max-height: 75vh;
+  height: 75vh;
   overflow-y: auto;
   border-radius: 10px;
   border: 1px solid #ccc;
+}
+.link {
+  opacity: 70%;
+}
+.link.active {
+  opacity: 100%;
 }
 
 .rounded-table {
