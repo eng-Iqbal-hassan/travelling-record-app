@@ -1,12 +1,14 @@
 import React from "react";
 import { Input } from "@common/components";
 import { ROUTES } from "@routes";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowDown, Logo } from "@assets/svgs";
 import profile_img from "../../assets/images/profile_img.png";
 
 export function Header() {
   // const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname === ROUTES.TICKETS);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -20,16 +22,27 @@ export function Header() {
       </Link>
       <ul className='flex gap-6 text-white'>
         <li>
-          <Link to={ROUTES.HOME}>Vendor</Link>
+          <Link to={ROUTES.HOME} className={location.pathname === ROUTES.HOME ? "opacity-100" : "opacity-70"}>
+            Vendor
+          </Link>
         </li>
         <li>
-          <Link to={ROUTES.TICKETS}>Tickets</Link>
+          <Link to={ROUTES.TICKETS} className={location.pathname === ROUTES.TICKETS ? "opacity-100" : "opacity-70"}>
+            Tickets
+          </Link>
         </li>
         <li>
-          <Link to={ROUTES.RESERVATION}>Hotel</Link>
+          <Link
+            to={ROUTES.RESERVATION}
+            className={location.pathname === ROUTES.RESERVATION ? "opacity-100" : "opacity-70"}
+          >
+            Hotel
+          </Link>
         </li>
         <li>
-          <Link to={ROUTES.VISA}>Visa</Link>
+          <Link to={ROUTES.VISA} className={location.pathname === ROUTES.VISA ? "opacity-100" : "opacity-70"}>
+            Visa
+          </Link>
         </li>
       </ul>
       <div className='flex gap-3'>
