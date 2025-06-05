@@ -1,7 +1,7 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData } from "@common/components";
 
 export function ReservationTable({ data }) {
-  const hasData = Array.isArray(data) && data.length > 0;
+  const hasData = Array.isArray(data) && data?.length > 0;
 
   return (
     <Table>
@@ -19,19 +19,25 @@ export function ReservationTable({ data }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((item, index) => (
-          <TableRow key={index}>
-            <TableData text={index + 1} />
-            <TableData text={item.name || "-"} />
-            <TableData text={item.reservationNo || "-"} />
-            <TableData text={item.checkedIn || "-"} />
-            <TableData text={item.checkedOut || "-"} />
-            <TableData text={item.nts || "-"} />
-            <TableData text={(item.paymentType === "debit" && item.pkrAmount) || "0.00"} />
-            <TableData text={(item.paymentType === "credit" && item.pkrAmount) || "0.00"} />
-            <TableData text={item.balance || "-"} />
+        {hasData ? (
+          data?.map((item, index) => (
+            <TableRow key={index}>
+              <TableData text={index + 1} />
+              <TableData text={item.name || "-"} />
+              <TableData text={item.reservationNo || "-"} />
+              <TableData text={item.checkedIn || "-"} />
+              <TableData text={item.checkedOut || "-"} />
+              <TableData text={item.nts || "-"} />
+              <TableData text={(item.paymentType === "debit" && item.pkrAmount) || "0.00"} />
+              <TableData text={(item.paymentType === "credit" && item.pkrAmount) || "0.00"} />
+              <TableData text={item.balance || "-"} />
+            </TableRow>
+          ))
+        ) : (
+          <TableRow className='relative h-[71vh]'>
+            <div className='w-fit absolute top-1/2 left-1/2 text-2xl font-semibold -translate-x-1/2'>No Data Found</div>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );

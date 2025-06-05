@@ -1,3 +1,3 @@
-export function TableData({ text }) {
-  return <td>{text}</td>;
+export function TableData({ text, className }) {
+  return <td className={`${className}`}>{text}</td>;
 }
