@@ -1,6 +1,8 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData } from "@common/components";
 
 export function ReservationTable({ data }) {
+  const hasData = Array.isArray(data) && data.length > 0;
+
   return (
     <Table>
       <TableHead>
