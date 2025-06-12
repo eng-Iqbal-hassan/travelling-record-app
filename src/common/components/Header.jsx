@@ -1,13 +1,11 @@
 import React from "react";
 import { Input } from "@common/components";
 import { ROUTES } from "@routes";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ArrowDown, Logo } from "@assets/svgs";
 import profile_img from "../../assets/images/profile_img.png";
 
 export function Header() {
-  // const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     window.location.href = "/app/login";
@@ -15,18 +13,29 @@ export function Header() {
 
   return (
     <div className='flex items-center justify-between py-4 px-6 bg-[#000080]'>
-      <Link to={ROUTES.HOME}>
+      <NavLink to={ROUTES.HOME} className='link'>
         <Logo />
-      </Link>
+      </NavLink>
       <ul className='flex gap-6 text-white'>
         <li>
-          <Link to={ROUTES.HOME}>Vendor</Link>
+          <NavLink to={ROUTES.HOME} className='link'>
+            Vendor
+          </NavLink>
         </li>
         <li>
-          <Link to={ROUTES.TICKETS}>Tickets</Link>
+          <NavLink to={ROUTES.TICKETS} className='link'>
+            Tickets
+          </NavLink>
         </li>
         <li>
-          <Link to={ROUTES.RESERVATION}>Hotel</Link>
+          <NavLink to={ROUTES.RESERVATION} className='link'>
+            Hotel
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to={ROUTES.VISA} className='link'>
+            Visa
+          </NavLink>
         </li>
       </ul>
       <div className='flex gap-3'>

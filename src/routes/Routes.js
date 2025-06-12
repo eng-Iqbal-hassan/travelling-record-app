@@ -7,4 +7,5 @@ export const ROUTES = {
   TICKETS: "/tickets",
   CRUD_AXIOS: "/crud-axios",
   REACT_QUERY: "/react-query",
+  VISA: "/visa",
 };

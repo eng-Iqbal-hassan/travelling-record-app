@@ -4,6 +4,8 @@ import { router } from "@routes";
 import { useSentry, useSetupAxios } from "@services";
 import { AppContext } from "@useContext";
 import "./global.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   useSetupAxios();
@@ -15,6 +17,7 @@ function App() {
   return (
     <AppContext.Provider value={permissions}>
       <RouterProvider router={router} />
+      <ToastContainer position='top-right' autoClose={3000} />
     </AppContext.Provider>
   );
 }

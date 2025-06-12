@@ -1,6 +1,7 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
 
 export function TicketTable({ data }) {
+  const hasData = Array.isArray(data) && data?.length > 0;
   return (
     <Table>
       <TableHead>
@@ -16,20 +17,26 @@ export function TicketTable({ data }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {data.map((item, index) => (
-          <TableRow key={index} className='h-[3.75rem]'>
-            <TableData text={index + 1} />
-            <TableData text={item.date || "-"} />
-            <TableData text={item.vendor.name || "-"} />
-            <TableData text={item.description || "-"} />
-            <TableData text={item.debit || "-"} />
-            <TableData text={item.credit || "-"} />
-            <TableData text={item.balance || "-"} />
-            <div className='p-2.5 w-40 border-b border-[#ccc]'>
-              <Button className='bg-blue-600' title='Email' />
-            </div>
+        {hasData ? (
+          data.map((item, index) => (
+            <TableRow key={index} className='h-[3.75rem]'>
+              <TableData text={index + 1} />
+              <TableData text={item.date || "-"} />
+              <TableData text={item.vendor.name || "-"} />
+              <TableData text={item.description || "-"} />
+              <TableData text={item.debit || "-"} />
+              <TableData text={item.credit || "-"} />
+              <TableData text={item.balance || "-"} />
+              <div className='p-2.5 w-40 border-b border-[#ccc]'>
+                <Button className='bg-blue-600' title='Email' />
+              </div>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow className='relative h-[71vh]'>
+            <div className='w-fit absolute top-1/2 left-1/2 text-2xl font-semibold -translate-x-1/2'>No Data Found</div>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );
