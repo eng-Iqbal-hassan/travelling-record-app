@@ -8,4 +8,5 @@ export const ROUTES = {
   CRUD_AXIOS: "/crud-axios",
   REACT_QUERY: "/react-query",
   VISA: "/visa",
+  TRAIL: "/trail",
 };

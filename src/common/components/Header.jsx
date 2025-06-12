@@ -37,6 +37,11 @@ export function Header() {
             Visa
           </NavLink>
         </li>
+        <li>
+          <NavLink to={ROUTES.TRAIL} className='link'>
+            Trail
+          </NavLink>
+        </li>
       </ul>
       <div className='flex gap-3'>
         <Input placeholder='USD Rate' />
