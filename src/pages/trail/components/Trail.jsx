@@ -1,4 +1,4 @@
-import { Header } from "@common/components";
+import { Header, TrailTable } from "@common/components";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
@@ -14,7 +14,7 @@ export function Trail() {
     staleTime: 1000 * 60 * 5,
   });
   const trailQuery = useQuery({
-    queryKey: ["visa", setSelectedVendor],
+    queryKey: ["visa", selectedVendor],
     queryFn: async () => {
       if (!selectedVendor) return [];
       const url = `http://54.164.99.34/api/vendors/${selectedVendor}/transactions/`;
@@ -29,7 +29,7 @@ export function Trail() {
     <div>
       <Header />
       <div className="className='flex flex-col gap-5 py-4 px-8">
-        <div className='flex justify-between items-center'>
+        <div className='flex justify-between items-center mb-5'>
           <h2>Trail</h2>
           <select
             name='vendors'
@@ -41,7 +41,7 @@ export function Trail() {
             <option value='' disabled>
               Select an option
             </option>
-            <option value=''>All</option>
+            <option value=''>None</option>
             {vendorQuery.isSuccess &&
               vendorQuery?.data.map((vendor) => (
                 <option key={vendor.id} value={vendor.id}>
@@ -50,6 +50,12 @@ export function Trail() {
               ))}
           </select>
         </div>
+        {!trailQuery.data && (
+          <div className='h-[75vh] w-full flex items-center justify-center text-2xl font-semibold'>
+            Select a Vendor to get his/her trail
+          </div>
+        )}
+        {trailQuery.data && <TrailTable data={trailQuery.data} />}
       </div>
     </div>
   );
