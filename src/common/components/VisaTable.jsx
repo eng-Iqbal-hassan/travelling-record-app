@@ -11,6 +11,9 @@ export function VisaTable({ data }) {
           <Th text='Passport Number' />
           <Th text='Voucher Number' />
           <Th text='Payment Type' />
+          <Th text='Debit' />
+          <Th text='Credit' />
+          <Th text='Balance' />
         </TableRow>
       </TableHead>
       <TableBody>
@@ -19,9 +22,12 @@ export function VisaTable({ data }) {
             <TableRow key={index} className='h-[3.75rem]'>
               <TableData text={index + 1} />
               <TableData text={item.name} />
-              <TableData text={item.passportNumber} />
-              <TableData text={item.voucherNumber} />
-              <TableData text={item.paymentType} />
+              <TableData text={item.passportNumber || "-"} />
+              <TableData text={item.voucherNumber || "-"} />
+              <TableData text={item.paymentType || "-"} />
+              <TableData text={(item.paymentType === "debit" && item.pkrAmount) || "0.00"} />
+              <TableData text={(item.paymentType === "credit" && item.pkrAmount) || "0.00"} />
+              <TableData text={item.balance || "-"} />
             </TableRow>
           ))
         ) : (
