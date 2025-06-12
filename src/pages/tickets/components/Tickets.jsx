@@ -42,8 +42,7 @@ export function Tickets() {
         <div className='flex justify-between items-center'>
           <h2>Ticket</h2>
           <div className='flex gap-2'>
-            <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
-
+            <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />\
             <select
               name='vendors'
               id='vendors'
