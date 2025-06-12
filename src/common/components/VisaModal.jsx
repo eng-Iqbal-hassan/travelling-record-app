@@ -2,13 +2,29 @@ import React from "react";
 import { Button, ModalBody, ModalWrapper } from ".";
 import { CrossIcon } from "@assets/svgs";
 import { useFormik } from "formik";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
-export function VisaModal({ crossIconClick }) {
+export function VisaModal({ crossIconClick, success, vendors = [] }) {
+  const mutation = useMutation({
+    mutationFn: async (payload) => {
+      await axios.post("http://54.164.99.34/api/visa/", payload);
+    },
+    onSuccess: () => {
+      success();
+    },
+  });
   const formik = useFormik({
     initialValues: {
       name: "",
-      passport: "",
-      voucher: "",
+      passport_number: "",
+      voucher_number: "",
+      vendor_id: "",
+      pkr_amount: "",
+      payment_type: "",
+    },
+    onSubmit: (values) => {
+      mutation.mutate(values);
     },
   });
   const { values, handleChange, handleSubmit, setValues } = formik;
@@ -19,7 +35,7 @@ export function VisaModal({ crossIconClick }) {
         <h1>Add Visa</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
-            <label>Name</label>
+            <label for='name'>Name</label>
             <input
               type='text'
               name='name'
@@ -30,26 +46,72 @@ export function VisaModal({ crossIconClick }) {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label>Passport Number</label>
+            <label for='passport_number'>passport Number</label>
             <input
-              type='number'
-              name='passport'
-              placeholder='Enter Passport Number'
+              type='text'
+              name='passport_number'
+              placeholder='Enter passport Number'
               className='bg-white rounded-md h-12 px-4'
-              value={values.passport}
+              value={values.passport_number}
               onChange={handleChange}
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label>Voucher Number</label>
+            <label for='voucher_number'>voucher Number</label>
             <input
-              type='number'
-              name='voucher'
+              type='text'
+              name='voucher_number'
               placeholder='Enter Voucher Number'
               className='bg-white rounded-md h-12 px-4'
-              value={values.voucher}
+              value={values.voucher_number}
               onChange={handleChange}
             />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <label for='vendor'>To</label>
+            <select
+              name='vendor_id'
+              id='vendor_id'
+              value={values.vendor_id}
+              onChange={handleChange}
+              className='bg-white rounded-md h-12 px-4'
+            >
+              <option value='' disabled hidden>
+                Select a vendor
+              </option>
+              {vendors.map((vendor) => (
+                <option key={vendor.id} value={vendor.id}>
+                  {vendor.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <label for='pkr_amount'>Amount(pkr)</label>
+            <input
+              type='number'
+              name='pkr_amount'
+              placeholder='Enter Amount'
+              className='bg-white rounded-md h-12 px-4'
+              value={values.pkr_amount}
+              onChange={handleChange}
+            />
+          </div>
+          <div className='flex flex-1 flex-col gap-2'>
+            <label for='payment_type'>payment Type</label>
+            <select
+              name='payment_type'
+              id='payment_type'
+              value={values.payment_type}
+              onChange={handleChange}
+              className='bg-white rounded-md h-12 px-4'
+            >
+              <option value='' disabled hidden>
+                Select payment Type
+              </option>
+              <option value='credit'>Credit</option>
+              <option value='debit'>Debit</option>
+            </select>
           </div>
           <div className='flex gap-3 justify-end'>
             <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />

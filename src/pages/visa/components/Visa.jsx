@@ -1,10 +1,19 @@
 import { Button, Header, VisaModal, VisaTable } from "@common/components";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
 
 export function Visa() {
   const [openVisaModal, setOpenVisaModal] = useState(false);
+  const queryClient = useQueryClient();
+  const vendorQuery = useQuery({
+    queryKey: ["vendors"],
+    queryFn: async () => {
+      const response = await axios.get("http://54.164.99.34//api/vendors");
+      return response.data.vendors;
+    },
+    staleTime: 1000 * 60 * 5,
+  });
   const visaQuery = useQuery({
     queryKey: ["visa"],
     queryFn: async () => {
@@ -13,7 +22,12 @@ export function Visa() {
       return Object.values(response.data);
     },
     staleTime: 1000 * 60 * 5,
+    enabled: vendorQuery.isSuccess,
   });
+  const handleSuccess = () => {
+    setOpenVisaModal(false);
+    queryClient.invalidateQueries(["visa"]);
+  };
   return (
     <div>
       <Header />
@@ -24,7 +38,9 @@ export function Visa() {
         </div>
         {visaQuery.data && <VisaTable data={visaQuery.data} />}
       </div>
-      {openVisaModal && <VisaModal crossIconClick={() => setOpenVisaModal(false)} />}
+      {openVisaModal && (
+        <VisaModal success={handleSuccess} vendors={vendorQuery.data} crossIconClick={() => setOpenVisaModal(false)} />
+      )}
     </div>
   );
 }
