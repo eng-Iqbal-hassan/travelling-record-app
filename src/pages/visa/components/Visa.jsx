@@ -9,7 +9,7 @@ export function Visa() {
     queryKey: ["visa"],
     queryFn: async () => {
       const response = await axios.get("http://54.164.99.34/api/visa/");
-      console.log("visa data", response.data);
+      console.log(response.data);
       return Object.values(response.data);
     },
     staleTime: 1000 * 60 * 5,
