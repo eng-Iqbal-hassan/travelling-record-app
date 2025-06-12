@@ -21,3 +21,4 @@ export { DeleteModal } from "@common/components/DeleteModal";
 export { VisaModal } from "@common/components/VisaModal";
 export { VisaTable } from "@common/components/VisaTable";
 export { HotelDetailModal } from "@common/components/HotelDetailModal";
+export { TrailTable } from "@common/components/TrailTable";

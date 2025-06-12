@@ -1,6 +1,6 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
 
-export function VisaTable({ data }) {
+export function TrailTable({ data }) {
   const hasData = Array.isArray(data) && data?.length > 0;
   return (
     <Table>
@@ -8,8 +8,7 @@ export function VisaTable({ data }) {
         <TableRow>
           <Th text='Sr. No' />
           <Th text='Name' />
-          <Th text='Passport Number' />
-          <Th text='Voucher Number' />
+          <Th text='type' />
           <Th text='Payment Type' />
           <Th text='Debit' />
           <Th text='Credit' />
@@ -22,11 +21,10 @@ export function VisaTable({ data }) {
             <TableRow key={index} className='h-[3.75rem]'>
               <TableData text={index + 1} />
               <TableData text={item.name} />
-              <TableData text={item.passportNumber || "-"} />
-              <TableData text={item.voucherNumber || "-"} />
+              <TableData text={item.type || "-"} />
               <TableData text={item.paymentType || "-"} />
-              <TableData text={(item.paymentType === "debit" && item.pkrAmount) || "0.00"} />
-              <TableData text={(item.paymentType === "credit" && item.pkrAmount) || "0.00"} />
+              <TableData text={(item.paymentType === "debit" && item.amount) || "0.00"} />
+              <TableData text={(item.paymentType === "credit" && item.amount) || "0.00"} />
               <TableData text={item.balance || "-"} />
             </TableRow>
           ))

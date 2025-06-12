@@ -9,6 +9,7 @@ import { Login } from "@pages/login";
 import { CrudAxios } from "@pages/crudAxios";
 import { ReactQuery } from "@pages/reactQuery";
 import { Visa } from "@pages/visa";
+import { Trail } from "@pages/trail";
 
 // eslint-disable-next-line no-unused-vars
 const createPrivateRoute = (Component) => {
@@ -32,6 +33,7 @@ export const router = createBrowserRouter(
       <Route path={ROUTES.CRUD_AXIOS} element={<CrudAxios />} />
       <Route path={ROUTES.REACT_QUERY} element={<ReactQuery />} />
       <Route path={ROUTES.VISA} element={<Visa />} />
+      <Route path={ROUTES.TRAIL} element={<Trail />} />
     </>
   ),
   { basename: "/app" }
