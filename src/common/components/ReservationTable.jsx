@@ -33,7 +33,7 @@ export function ReservationTable({ data, onClick }) {
               <TableData text={(item.paymentType === "credit" && item.pkrAmount) || "0.00"} />
               <TableData text={item.balance || "-"} />
               <div className='p-2.5 w-40 border-b border-[#ccc]'>
-                <Button className='bg-blue-600' title='Action' onClick={onClick} />
+                <Button className='bg-blue-600' title='Detail' onClick={onClick} />
               </div>
             </TableRow>
           ))
