@@ -1,6 +1,6 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
 
-export function TicketTable({ data }) {
+export function TicketTable({ data, onSendEmail }) {
   const hasData = Array.isArray(data) && data?.length > 0;
   return (
     <Table>
@@ -28,7 +28,7 @@ export function TicketTable({ data }) {
               <TableData text={item.credit || "-"} />
               <TableData text={item.balance || "-"} />
               <div className='p-2.5 w-40 table-actions'>
-                <Button className='bg-blue-600' title='Email' />
+                <Button className='bg-blue-600' title='Email' onClick={() => onSendEmail(item.id)} />
               </div>
             </TableRow>
           ))

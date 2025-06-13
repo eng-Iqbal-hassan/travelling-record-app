@@ -35,6 +35,17 @@ export function Tickets() {
     queryClient.invalidateQueries(["tickets", selectedVendor]);
     toast.success("Ticket created successfully!");
   };
+  const handleSendEmail = async (ticketId) => {
+    try {
+      await axios.post("http://54.164.99.34//api/ticket/v1/send-ticket-email/", {
+        ticket_id: ticketId,
+      });
+      toast.success(`Email sent successfully for Ticket ID ${ticketId}`);
+    } catch (error) {
+      console.error("Email sending failed:", error);
+      toast.error("Failed to send email.");
+    }
+  };
   return (
     <div>
       <Header />
@@ -64,7 +75,7 @@ export function Tickets() {
           </div>
         </div>
         {ticketsQuery.error && <p>Error Loading Tickets.</p>}
-        {ticketsQuery.data && <TicketTable data={ticketsQuery.data} />}
+        {ticketsQuery.data && <TicketTable data={ticketsQuery.data} onSendEmail={handleSendEmail} />}
       </div>
       {openTicketModal && (
         <TicketModal
