@@ -8,6 +8,7 @@ export function Reservation() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openReservationModal, setOpenReservationModal] = useState(false);
   const [openReservationDetailModal, setOpenReservationDetailModal] = useState(false);
+  const [reservationDetail, setReservationDetail] = useState(null);
   const queryClient = useQueryClient();
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
@@ -24,6 +25,7 @@ export function Reservation() {
         ? `http://54.164.99.34/api/vendors/hotels/${selectedVendor}/`
         : `http://54.164.99.34/api/hotels/all/`;
       const response = await axios.get(url);
+      console.log(response.data.hotels);
       return response.data.hotels;
     },
     staleTime: 1000 * 60 * 5,
@@ -48,6 +50,10 @@ export function Reservation() {
       toast.error("Failed to send email.");
     },
   });
+  const handleDetailBtnClick = (row) => {
+    setReservationDetail(row);
+    setOpenReservationDetailModal(true);
+  };
 
   return (
     <div>
@@ -80,7 +86,7 @@ export function Reservation() {
         {hotelsQuery.data && (
           <ReservationTable
             data={hotelsQuery.data}
-            onClick={() => setOpenReservationDetailModal(true)}
+            detailBtnClick={handleDetailBtnClick}
             onSendEmail={sendEmailMutation.mutate}
           />
         )}
@@ -92,7 +98,9 @@ export function Reservation() {
           vendors={vendorQuery.data}
         />
       )}
-      {openReservationDetailModal && <HotelDetailModal crossIconClick={() => setOpenReservationDetailModal(false)} />}
+      {openReservationDetailModal && reservationDetail && (
+        <HotelDetailModal data={reservationDetail} crossIconClick={() => setOpenReservationDetailModal(false)} />
+      )}
     </div>
   );
 }

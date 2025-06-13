@@ -2,7 +2,7 @@ import React from "react";
 import { ModalBody, ModalWrapper } from "@common/components";
 import { CrossIcon } from "@assets/svgs";
 
-export function HotelDetailModal({ crossIconClick }) {
+export function HotelDetailModal({ crossIconClick, data }) {
   return (
     <ModalWrapper>
       <ModalBody className='w-[70vw]'>
@@ -12,37 +12,37 @@ export function HotelDetailModal({ crossIconClick }) {
           <div className='flex gap-5 justify-between'>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Vendor Name:</h4>
-              <p>Farhan</p>
+              <p>{data.vendor || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Hotel Name:</h4>
-              <p>Raja Resort</p>
+              <p>{data.name || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>CheckedIn Date:</h4>
-              <p>2025-06-07</p>
+              <p>{data.checkedIn || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>CheckedOut Date:</h4>
-              <p>2025-06-09</p>
+              <p>{data.checkedOut || "-"}</p>
             </div>
           </div>
           <div className='flex gap-5 justify-between'>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Reservation Number:</h4>
-              <p>765</p>
+              <p>{data.reservationNo || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Guest Name:</h4>
-              <p>Shaheer Ali</p>
+              <p>{data.guestName || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>View:</h4>
-              <p>Not important</p>
+              <p>{data.view || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Nights:</h4>
-              <p>2</p>
+              <p>{data.nts || "-"}</p>
             </div>
           </div>
           <div className='flex flex-col gap-4'>
@@ -95,11 +95,11 @@ export function HotelDetailModal({ crossIconClick }) {
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Total Amount:</h4>
-              <p>Not important</p>
+              <p>{data.pkrAmount || "-"}</p>
             </div>
             <div className='flex gap-1.5 items-center min-w-[238px]'>
               <h4 className='text-lg font-bold'>Payment Method:</h4>
-              <p>Credit</p>
+              <p>{data.paymentType || "-"}</p>
             </div>
           </div>
         </div>
