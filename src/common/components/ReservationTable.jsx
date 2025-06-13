@@ -21,9 +21,9 @@ export function ReservationTable({ data, detailBtnClick, onSendEmail }) {
       </TableHead>
       <TableBody>
         {hasData ? (
-          data?.map((item, index) => (
+          [...data]?.reverse().map((item, index) => (
             <TableRow key={index}>
-              <TableData text={index + 1} />
+              <TableData text={data.length - index} />
               <TableData text={item.name || "-"} />
               <TableData text={item.reservationNo || "-"} />
               <TableData text={item.checkedIn || "-"} />

@@ -5,6 +5,7 @@ export function VendorTable({ vendor, onUpdate, handleDelete }) {
     <Table>
       <TableHead>
         <TableRow>
+          <Th text='Sr. No' />
           <Th text='Vendor' />
           <Th text='Email' />
           <Th text='Company Name' />
@@ -13,8 +14,9 @@ export function VendorTable({ vendor, onUpdate, handleDelete }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {vendor.map((item, index) => (
+        {[...vendor].reverse().map((item, index) => (
           <TableRow key={index} className='h-[3.75rem]'>
+            <TableData text={vendor.length - index} />
             <TableData text={item.name} />
             <TableData text={item.email} />
             <TableData text={item.companyName} />

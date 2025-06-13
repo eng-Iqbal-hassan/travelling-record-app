@@ -35,7 +35,7 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
         <h1>Add Visa</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
-            <label for='name'>Name</label>
+            <label for='name'>Visa Holder</label>
             <input
               type='text'
               name='name'
@@ -68,7 +68,7 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label for='vendor'>To</label>
+            <label for='vendor'>Vendor Name</label>
             <select
               name='vendor_id'
               id='vendor_id'

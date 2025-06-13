@@ -17,9 +17,9 @@ export function TrailTable({ data }) {
       </TableHead>
       <TableBody>
         {hasData ? (
-          data?.map((item, index) => (
+          [...data].reverse()?.map((item, index) => (
             <TableRow key={index} className='h-[3.75rem]'>
-              <TableData text={index + 1} />
+              <TableData text={data.length - index} />
               <TableData text={item.name} />
               <TableData text={item.type || "-"} />
               <TableData text={item.paymentType || "-"} />

@@ -18,9 +18,9 @@ export function TicketTable({ data, onSendEmail }) {
       </TableHead>
       <TableBody>
         {hasData ? (
-          data.map((item, index) => (
+          [...data]?.reverse().map((item, index) => (
             <TableRow key={index} className='h-[3.75rem]'>
-              <TableData text={index + 1} />
+              <TableData text={data.length - index} />
               <TableData text={item.date || "-"} />
               <TableData text={item.vendor.name || "-"} />
               <TableData text={item.description || "-"} />
