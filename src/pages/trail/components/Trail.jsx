@@ -30,7 +30,12 @@ export function Trail() {
       <Header />
       <div className="className='flex flex-col gap-5 py-4 px-8">
         <div className='flex justify-between items-center mb-5'>
-          <h2>Trail</h2>
+          <h2>
+            Trail
+            {selectedVendor && vendorQuery?.data
+              ? ` (${vendorQuery.data.find((v) => String(v.id) === String(selectedVendor))?.name || ""})`
+              : ""}
+          </h2>
           <select
             name='vendors'
             id='vendors'

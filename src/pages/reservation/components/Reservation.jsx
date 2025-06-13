@@ -66,7 +66,12 @@ export function Reservation() {
       <Header />
       <div className='flex flex-col gap-5 py-4 px-8'>
         <div className='flex justify-between items-center'>
-          <h2>Reservation</h2>
+          <h2>
+            Reservations{" "}
+            {selectedVendor && vendorQuery?.data
+              ? ` (${vendorQuery.data.find((v) => String(v.id) === String(selectedVendor))?.name || ""})`
+              : " (All)"}
+          </h2>
           <div className='flex gap-2'>
             <Button className='bg-[#000080]' title='Add Reservation' onClick={() => setOpenReservationModal(true)} />
             <select

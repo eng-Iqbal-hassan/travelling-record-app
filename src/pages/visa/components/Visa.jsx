@@ -41,7 +41,12 @@ export function Visa() {
       <Header />
       <div className='flex flex-col gap-5 py-4 px-8'>
         <div className='flex justify-between items-center'>
-          <h2>Visa</h2>
+          <h2>
+            Visa{" "}
+            {selectedVendor && vendorQuery?.data
+              ? ` (${vendorQuery.data.find((v) => String(v.id) === String(selectedVendor))?.name || ""})`
+              : " (All)"}
+          </h2>
           <div className='flex gap-2'>
             <Button className='bg-[#000080]' title='Add Visa' onClick={() => setOpenVisaModal(true)} />
             <select
