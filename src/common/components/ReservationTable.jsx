@@ -1,6 +1,6 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
 
-export function ReservationTable({ data, onClick }) {
+export function ReservationTable({ data, onClick, onSendEmail }) {
   const hasData = Array.isArray(data) && data?.length > 0;
 
   return (
@@ -16,7 +16,7 @@ export function ReservationTable({ data, onClick }) {
           <Th text='Debit' />
           <Th text='Credit' />
           <Th text='Balance' />
-          <Th text='Action' className='w-40' />
+          <Th text='Action' className='w-[11.25rem]' />
         </TableRow>
       </TableHead>
       <TableBody>
@@ -32,7 +32,8 @@ export function ReservationTable({ data, onClick }) {
               <TableData text={(item.paymentType === "debit" && item.pkrAmount) || "0.00"} />
               <TableData text={(item.paymentType === "credit" && item.pkrAmount) || "0.00"} />
               <TableData text={item.balance || "-"} />
-              <div className='p-2.5 w-40 table-actions'>
+              <div className='flex gap-2 p-2.5 w-[11.25rem] table-actions'>
+                <Button className='bg-blue-600' title='Email' onClick={() => onSendEmail(item.id)} />
                 <Button className='bg-blue-600' title='Detail' onClick={onClick} />
               </div>
             </TableRow>

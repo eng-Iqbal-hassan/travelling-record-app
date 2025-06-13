@@ -1,7 +1,8 @@
 import { AddReservationModal, Button, Header, HotelDetailModal, ReservationTable } from "@common/components";
 import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function Reservation() {
   const [selectedVendor, setSelectedVendor] = useState("");
@@ -32,6 +33,21 @@ export function Reservation() {
     setOpenReservationModal(false);
     queryClient.invalidateQueries(["hotels", selectedVendor]);
   };
+  const sendEmailMutation = useMutation({
+    mutationFn: async (hotelId) => {
+      const response = await axios.post("http://54.164.99.34//api/hotels/send-hotel-email/", {
+        hotel_id: hotelId,
+      });
+      return response.data;
+    },
+    onSuccess: (_, hotelId) => {
+      toast.success(`Email sent successfully for this Reservation`);
+    },
+    onError: (error) => {
+      console.error("Email sending failed:", error);
+      toast.error("Failed to send email.");
+    },
+  });
 
   return (
     <div>
@@ -62,7 +78,11 @@ export function Reservation() {
           </div>
         </div>
         {hotelsQuery.data && (
-          <ReservationTable data={hotelsQuery.data} onClick={() => setOpenReservationDetailModal(true)} />
+          <ReservationTable
+            data={hotelsQuery.data}
+            onClick={() => setOpenReservationDetailModal(true)}
+            onSendEmail={sendEmailMutation.mutate}
+          />
         )}
       </div>
       {openReservationModal && (

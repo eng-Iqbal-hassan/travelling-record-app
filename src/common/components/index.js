@@ -5,6 +5,7 @@ export { ModalWrapper } from "@common/components/ModalWrapper";
 export { AddEditVendorModal } from "@common/components/AddEditVendorModal";
 export { ModalBody } from "@common/components/ModalBody";
 export { TicketTable } from "@common/components/TicketTable";
+export { TicketModal } from "@common/components/TicketModal";
 export { Table } from "@common/components/Table";
 export { TableData } from "@common/components/TableData";
 export { TableHead } from "@common/components/TableHead";

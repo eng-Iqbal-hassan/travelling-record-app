@@ -1,5 +1,4 @@
-import { Button, Header, TicketTable } from "@common/components";
-import { TicketModal } from "@common/components/TicketModal";
+import { Button, Header, TicketTable, TicketModal } from "@common/components";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
