@@ -27,7 +27,7 @@ export function TicketTable({ data }) {
               <TableData text={item.debit || "-"} />
               <TableData text={item.credit || "-"} />
               <TableData text={item.balance || "-"} />
-              <div className='p-2.5 w-40 border-b border-[#ccc]'>
+              <div className='p-2.5 w-40 table-actions'>
                 <Button className='bg-blue-600' title='Email' />
               </div>
             </TableRow>

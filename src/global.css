@@ -4,6 +4,13 @@
   border-radius: 10px;
   border: 1px solid #ccc;
 }
+.table-actions {
+  border-bottom: 1px solid #ccc !important;
+}
+tr:last-child .table-actions {
+  border-bottom: none !important;
+}
+
 .link {
   opacity: 70%;
 }
