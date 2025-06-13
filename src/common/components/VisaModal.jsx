@@ -5,13 +5,16 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-export function VisaModal({ crossIconClick, success, vendors = [] }) {
+export function VisaModal({ crossIconClick, error, success, vendors = [] }) {
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34/api/visa/", payload);
     },
     onSuccess: () => {
       success();
+    },
+    onError: () => {
+      error();
     },
   });
   const formik = useFormik({
@@ -114,7 +117,11 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
             </select>
           </div>
           <div className='flex gap-3 justify-end'>
-            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
+            <Button
+              type='submit'
+              className='bg-blue-600 min-w-[3.75rem]'
+              title={mutation.isLoading ? "Submitting..." : "Submit"}
+            />
             <Button onClick={crossIconClick} type='button' className='bg-red-600' title='Cancel' />
           </div>
         </form>

@@ -5,13 +5,16 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-export function TicketModal({ crossIconClick, success, vendors = [] }) {
+export function TicketModal({ crossIconClick, success, error, vendors = [] }) {
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34//api/ticket/v1/", payload);
     },
     onSuccess: () => {
       success();
+    },
+    onError: () => {
+      error();
     },
   });
   const formik = useFormik({
@@ -245,7 +248,11 @@ export function TicketModal({ crossIconClick, success, vendors = [] }) {
 
           {/* ACTION BUTTONS */}
           <div className='flex gap-3 justify-end'>
-            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
+            <Button
+              type='submit'
+              className='bg-blue-600 min-w-[3.75rem]'
+              title={mutation.isLoading ? "Submitting..." : "Submit"}
+            />
             <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
           </div>
         </form>

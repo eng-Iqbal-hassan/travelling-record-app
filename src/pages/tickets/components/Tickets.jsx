@@ -33,6 +33,10 @@ export function Tickets() {
     queryClient.invalidateQueries(["tickets", selectedVendor]);
     toast.success("Ticket created successfully!");
   };
+  const handleError = () => {
+    setOpenTicketModal(false);
+    toast.error("Something Went Wrong. Check your internet connect and try again!");
+  };
   const sendEmailMutation = useMutation({
     mutationFn: async (ticketId) => {
       const response = await axios.post("http://54.164.99.34//api/ticket/v1/send-ticket-email/", {
@@ -83,6 +87,7 @@ export function Tickets() {
         <TicketModal
           crossIconClick={() => setOpenTicketModal(false)}
           success={handleSuccess}
+          error={handleError}
           vendors={vendorQuery.data}
         />
       )}

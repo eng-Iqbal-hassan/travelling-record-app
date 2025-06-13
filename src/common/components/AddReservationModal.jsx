@@ -5,7 +5,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 
-export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
+export function AddReservationModal({ crossIconClick, error, success, vendors = [] }) {
   const credit = "credit";
   const debit = "debit";
   const mutation = useMutation({
@@ -14,6 +14,9 @@ export function AddReservationModal({ crossIconClick, success, vendors = [] }) {
     },
     onSuccess: () => {
       success();
+    },
+    onError: () => {
+      error();
     },
   });
   const formik = useFormik({

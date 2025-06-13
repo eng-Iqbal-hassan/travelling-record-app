@@ -34,7 +34,13 @@ export function Reservation() {
   const handleSuccess = () => {
     setOpenReservationModal(false);
     queryClient.invalidateQueries(["hotels", selectedVendor]);
+    toast.success("Reservation created successfully!");
   };
+  const handleError = () => {
+    setOpenReservationModal(false);
+    toast.error("Something Went Wrong. Check your internet connect and try again!");
+  };
+
   const sendEmailMutation = useMutation({
     mutationFn: async (hotelId) => {
       const response = await axios.post("http://54.164.99.34//api/hotels/send-hotel-email/", {
@@ -95,6 +101,7 @@ export function Reservation() {
         <AddReservationModal
           crossIconClick={() => setOpenReservationModal(false)}
           success={handleSuccess}
+          error={handleError}
           vendors={vendorQuery.data}
         />
       )}

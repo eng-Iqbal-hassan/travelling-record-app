@@ -2,6 +2,7 @@ import { Button, Header, VisaModal, VisaTable } from "@common/components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 export function Visa() {
   const [selectedVendor, setSelectedVendor] = useState("");
@@ -29,6 +30,11 @@ export function Visa() {
   const handleSuccess = () => {
     setOpenVisaModal(false);
     queryClient.invalidateQueries(["visa", selectedVendor]);
+    toast.success("Visa created successfully!");
+  };
+  const handleError = () => {
+    setOpenVisaModal(false);
+    toast.error("Something Went Wrong. Check your internet connect and try again!");
   };
   return (
     <div>
@@ -61,7 +67,12 @@ export function Visa() {
         {visaQuery.data && <VisaTable data={visaQuery.data} />}
       </div>
       {openVisaModal && (
-        <VisaModal success={handleSuccess} vendors={vendorQuery.data} crossIconClick={() => setOpenVisaModal(false)} />
+        <VisaModal
+          success={handleSuccess}
+          error={handleError}
+          vendors={vendorQuery.data}
+          crossIconClick={() => setOpenVisaModal(false)}
+        />
       )}
     </div>
   );
