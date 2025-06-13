@@ -50,7 +50,7 @@ export function Trail() {
               ))}
           </select>
         </div>
-        {!selectedVendor && !trailQuery.data && (
+        {!selectedVendor && (
           <div className='h-[75vh] w-full flex items-center justify-center text-2xl font-semibold'>
             Select a Vendor to get his/her trail
           </div>
