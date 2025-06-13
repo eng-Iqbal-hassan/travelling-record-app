@@ -1,10 +1,9 @@
 import { Button, Header, TicketTable } from "@common/components";
 import { TicketModal } from "@common/components/TicketModal";
 import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Select from "react-select";
 
 export function Tickets() {
   const [selectedVendor, setSelectedVendor] = useState("");
@@ -35,17 +34,21 @@ export function Tickets() {
     queryClient.invalidateQueries(["tickets", selectedVendor]);
     toast.success("Ticket created successfully!");
   };
-  const handleSendEmail = async (ticketId) => {
-    try {
-      await axios.post("http://54.164.99.34//api/ticket/v1/send-ticket-email/", {
+  const sendEmailMutation = useMutation({
+    mutationFn: async (ticketId) => {
+      const response = await axios.post("http://54.164.99.34//api/ticket/v1/send-ticket-email/", {
         ticket_id: ticketId,
       });
-      toast.success(`Email sent successfully for Ticket ID ${ticketId}`);
-    } catch (error) {
+      return response.data;
+    },
+    onSuccess: (_, ticketId) => {
+      toast.success(`Email sent successfully for this Ticket`);
+    },
+    onError: (error) => {
       console.error("Email sending failed:", error);
       toast.error("Failed to send email.");
-    }
-  };
+    },
+  });
   return (
     <div>
       <Header />
@@ -75,7 +78,7 @@ export function Tickets() {
           </div>
         </div>
         {ticketsQuery.error && <p>Error Loading Tickets.</p>}
-        {ticketsQuery.data && <TicketTable data={ticketsQuery.data} onSendEmail={handleSendEmail} />}
+        {ticketsQuery.data && <TicketTable data={ticketsQuery.data} onSendEmail={sendEmailMutation.mutate} />}
       </div>
       {openTicketModal && (
         <TicketModal
