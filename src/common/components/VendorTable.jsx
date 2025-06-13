@@ -9,7 +9,6 @@ export function VendorTable({ vendor, onUpdate, handleDelete }) {
           <Th text='Email' />
           <Th text='Company Name' />
           <Th text='Mobile Number' />
-          <Th text='Type' />
           <Th className='w-[12.0625rem]' text='Action' />
         </TableRow>
       </TableHead>
@@ -20,7 +19,6 @@ export function VendorTable({ vendor, onUpdate, handleDelete }) {
             <TableData text={item.email} />
             <TableData text={item.companyName} />
             <TableData text={item.phoneNumber} />
-            <TableData text={item.type} />
             <div className='flex gap-2 p-2.5 w-[12.0625rem] border-b border-[#ccc]'>
               <Button type='button' title='Update' className='bg-blue-600' onClick={() => onUpdate(item)} />
               <Button type='button' title='delete' className='bg-blue-600' onClick={() => handleDelete(item.id)} />
