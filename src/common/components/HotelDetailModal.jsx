@@ -38,7 +38,7 @@ export function HotelDetailModal({ crossIconClick, data }) {
   const totalRoomAmount = data.rooms?.reduce((acc, room) => acc + parseFloat(room.total || 0), 0).toFixed(2);
   return (
     <ModalWrapper>
-      <ModalBody className='w-[70vw]'>
+      <ModalBody className='w-[90vw]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1 className='text-xl font-bold mb-8'>Reservation Detail</h1>
         <div className='flex flex-col gap-6'>
