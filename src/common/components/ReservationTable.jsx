@@ -1,4 +1,4 @@
-import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
+import { Table, TableBody, TableHead, TableRow, Th, TableData, Button, NoData } from "@common/components";
 
 export function ReservationTable({ data, detailBtnClick, onSendEmail }) {
   const hasData = Array.isArray(data) && data?.length > 0;
@@ -39,8 +39,8 @@ export function ReservationTable({ data, detailBtnClick, onSendEmail }) {
             </TableRow>
           ))
         ) : (
-          <TableRow className='relative h-[71vh]'>
-            <div className='w-fit absolute top-1/2 left-1/2 text-2xl font-semibold -translate-x-1/2'>No Data Found</div>
+          <TableRow className='relative h-[68vh]'>
+            <NoData />
           </TableRow>
         )}
       </TableBody>

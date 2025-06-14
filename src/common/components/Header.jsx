@@ -4,6 +4,7 @@ import { ROUTES } from "@routes";
 import { NavLink } from "react-router-dom";
 import { ArrowDown, Logo } from "@assets/svgs";
 import profile_img from "../../assets/images/profile_img.png";
+import logo from "../../assets/images/logo.jpg";
 
 export function Header() {
   const handleLogout = () => {
@@ -14,7 +15,7 @@ export function Header() {
   return (
     <div className='flex items-center justify-between py-4 px-6 bg-[#000080]'>
       <NavLink to={ROUTES.HOME} className='link'>
-        <Logo />
+        <img src={logo} alt='logo' className='w-10 h-10 rounded-full' />
       </NavLink>
       <ul className='flex gap-6 text-white'>
         <li>
