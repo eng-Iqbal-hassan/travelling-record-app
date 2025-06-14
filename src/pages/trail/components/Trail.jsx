@@ -1,4 +1,4 @@
-import { Header, TrailTable } from "@common/components";
+import { Header, Loader, TrailTable } from "@common/components";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
@@ -60,7 +60,13 @@ export function Trail() {
             Select a Vendor to get his/her trail
           </div>
         )}
-        {selectedVendor && trailQuery?.data && <TrailTable data={trailQuery.data} />}
+        {trailQuery.isLoading ? (
+          <Loader />
+        ) : trailQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
+          selectedVendor && <TrailTable data={trailQuery.data} />
+        )}
       </div>
     </div>
   );

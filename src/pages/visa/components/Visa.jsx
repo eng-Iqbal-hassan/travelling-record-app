@@ -1,4 +1,4 @@
-import { Button, Header, VisaModal, VisaTable } from "@common/components";
+import { Button, Header, Loader, VisaModal, VisaTable } from "@common/components";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
@@ -69,7 +69,13 @@ export function Visa() {
             </select>
           </div>
         </div>
-        {visaQuery.data && <VisaTable data={visaQuery.data} />}
+        {visaQuery.isLoading ? (
+          <Loader />
+        ) : visaQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
+          <VisaTable data={visaQuery.data} />
+        )}
       </div>
       {openVisaModal && (
         <VisaModal

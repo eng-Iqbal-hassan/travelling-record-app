@@ -1,4 +1,4 @@
-import { Button, Header, TicketTable, TicketModal, TicketDetailModal } from "@common/components";
+import { Button, Header, TicketTable, TicketModal, TicketDetailModal, Loader } from "@common/components";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -91,8 +91,11 @@ export function Tickets() {
             </select>
           </div>
         </div>
-        {ticketsQuery.error && <p>Error Loading Tickets.</p>}
-        {ticketsQuery.data && (
+        {ticketsQuery.isLoading ? (
+          <Loader />
+        ) : ticketsQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
           <TicketTable
             data={ticketsQuery.data}
             detailBtnClick={handleDetailBtnClick}

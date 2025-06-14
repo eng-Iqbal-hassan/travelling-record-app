@@ -1,4 +1,4 @@
-import { AddReservationModal, Button, Header, HotelDetailModal, ReservationTable } from "@common/components";
+import { AddReservationModal, Button, Header, HotelDetailModal, Loader, ReservationTable } from "@common/components";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -94,7 +94,11 @@ export function Reservation() {
             </select>
           </div>
         </div>
-        {hotelsQuery.data && (
+        {hotelsQuery.isLoading ? (
+          <Loader />
+        ) : hotelsQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
           <ReservationTable
             data={hotelsQuery.data}
             detailBtnClick={handleDetailBtnClick}
