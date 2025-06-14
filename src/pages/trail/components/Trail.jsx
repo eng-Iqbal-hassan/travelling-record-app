@@ -55,17 +55,16 @@ export function Trail() {
               ))}
           </select>
         </div>
-        {!selectedVendor && (
+        {!selectedVendor ? (
           <div className='h-[75vh] w-full flex items-center justify-center text-2xl font-semibold'>
             Select a Vendor to get his/her trail
           </div>
-        )}
-        {trailQuery.isLoading ? (
+        ) : trailQuery.isLoading ? (
           <Loader />
         ) : trailQuery.error ? (
           <p>Error Loading Tickets.</p>
         ) : (
-          selectedVendor && <TrailTable data={trailQuery.data} />
+          <TrailTable data={trailQuery.data} />
         )}
       </div>
     </div>
