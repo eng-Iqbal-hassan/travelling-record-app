@@ -150,7 +150,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
         <h1>Add Reservation</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           {step === 1 && (
-            <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-5 min-h-[26.5rem]'>
               <h2>Detail</h2>
               <div className='flex flex-col gap-4'>
                 <div className='flex gap-2'>
@@ -277,7 +277,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
             </div>
           )}
           {step === 2 && (
-            <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-5 min-h-[26.5rem]'>
               <h2>Room</h2>
               <div className='flex flex-col gap-4'>
                 <div className='flex gap-2'>
@@ -388,7 +388,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
             </div>
           )}
           {step === 3 && (
-            <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-5 min-h-[26.5rem]'>
               <h2>Meal</h2>
               <div className='flex flex-col gap-4'>
                 <div className='flex gap-2'>
@@ -473,7 +473,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
             </div>
           )}
           {step === 4 && (
-            <div className='flex flex-col gap-5'>
+            <div className='flex flex-col gap-5 min-h-[26.5rem]'>
               <h2>Amount</h2>
               <div className='flex flex-col gap-4'>
                 <div className='flex flex-1 flex-col gap-2'>
@@ -540,7 +540,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
           <div className='flex gap-3 justify-end'>
             {step > 1 && (
               <Button
-                type='button '
+                type='button'
                 className='bg-blue-600'
                 title='previous'
                 onClick={() => setStep((prev) => Math.max(1, prev - 1))}
