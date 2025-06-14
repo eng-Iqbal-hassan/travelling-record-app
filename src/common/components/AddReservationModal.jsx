@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 export function AddReservationModal({ crossIconClick, error, success, vendors = [], selectedVendor }) {
   const credit = "credit";
   const debit = "debit";
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34//api/hotels/", payload);
@@ -150,126 +150,135 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
         <h1>Add Reservation</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           {step === 1 && (
-            <div className='flex flex-col gap-4'>
-              <div className='flex flex-col gap-2'>
-                <label for='vendor'>To</label>
-                <select
-                  name='vendor'
-                  id='vendor'
-                  value={values.vendor}
-                  onChange={handleChange}
-                  className='bg-white rounded-md h-12 px-4'
-                  disabled={Boolean(selectedVendor)}
-                >
-                  <option value='' disabled hidden>
-                    Select a vendor
-                  </option>
-                  {vendors.map((vendor) => (
-                    <option key={vendor.id} value={vendor.id}>
-                      {vendor.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className='flex gap-2'>
-                <div className='flex flex-col gap-2 flex-1'>
-                  <label htmlFor=''>Checked In</label>
-                  <input
-                    type='date'
-                    name='checked_in'
-                    id='checked_in'
-                    value={values.checked_in}
-                    onChange={handleChange}
-                    placeholder='dd/mm/yyyy'
-                    className='bg-white rounded-md h-12 px-4 w-full'
-                  />
+            <div className='flex flex-col gap-5'>
+              <h2>Detail</h2>
+              <div className='flex flex-col gap-4'>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label for='vendor'>To</label>
+                    <select
+                      name='vendor'
+                      id='vendor'
+                      value={values.vendor}
+                      onChange={handleChange}
+                      className='bg-white rounded-md h-12 px-4'
+                      disabled={Boolean(selectedVendor)}
+                    >
+                      <option value='' disabled hidden>
+                        Select a vendor
+                      </option>
+                      {vendors.map((vendor) => (
+                        <option key={vendor.id} value={vendor.id}>
+                          {vendor.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='reservation_no' className='text-black'>
+                      Reservation Number
+                    </label>
+                    <input
+                      type='text'
+                      name='reservation_no'
+                      id='reservation_no'
+                      value={values.reservation_no}
+                      onChange={handleChange}
+                      placeholder='Enter Reservation Number'
+                      className='bg-white rounded-md h-12 px-4'
+                    />
+                  </div>
                 </div>
-                <div className='flex flex-col gap-2 flex-1'>
-                  <label htmlFor=''>Checked Out</label>
-                  <input
-                    type='date'
-                    name='checked_out'
-                    id='checked_out'
-                    value={values.checked_out}
-                    onChange={handleChange}
-                    placeholder='dd/mm/yyyy'
-                    className='bg-white rounded-md h-12 px-4 w-full'
-                  />
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor=''>Checked In</label>
+                    <input
+                      type='date'
+                      name='checked_in'
+                      id='checked_in'
+                      value={values.checked_in}
+                      onChange={handleChange}
+                      placeholder='dd/mm/yyyy'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor=''>Checked Out</label>
+                    <input
+                      type='date'
+                      name='checked_out'
+                      id='checked_out'
+                      value={values.checked_out}
+                      onChange={handleChange}
+                      placeholder='dd/mm/yyyy'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className='flex flex-col gap-2'>
-                <label htmlFor=''>Hotel Name</label>
-                <input
-                  type='text'
-                  name='name'
-                  id='name'
-                  value={values.name}
-                  onChange={handleChange}
-                  placeholder='Enter Hotel Name'
-                  className='bg-white rounded-md h-12 px-4'
-                />
-              </div>
-              <div className='flex flex-col gap-2'>
-                <label htmlFor='reservation_no' className='text-black'>
-                  Reservation Number
-                </label>
-                <input
-                  type='text'
-                  name='reservation_no'
-                  id='reservation_no'
-                  value={values.reservation_no}
-                  onChange={handleChange}
-                  placeholder='Enter Reservation Number'
-                  className='bg-white rounded-md h-12 px-4'
-                />
-              </div>
-              <div className='flex flex-col gap-2'>
-                <label htmlFor='guest_name' className='text-black'>
-                  Guest Name
-                </label>
-                <input
-                  type='text'
-                  name='guest_name'
-                  id='guest_name'
-                  value={values.guest_name}
-                  onChange={handleChange}
-                  placeholder='Enter Guest Name'
-                  className='bg-white rounded-md h-12 px-4'
-                />
-              </div>
-              <div className='flex flex-col gap-2'>
-                <label htmlFor='view' className='text-black'>
-                  View
-                </label>
-                <input
-                  type='text'
-                  name='view'
-                  id='view'
-                  value={values.view}
-                  onChange={handleChange}
-                  placeholder='Enter View'
-                  className='bg-white rounded-md h-12 px-4'
-                />
-              </div>
-              <div className='flex flex-col gap-2'>
-                <label htmlFor='nts' className='text-black'>
-                  NTS
-                </label>
-                <input
-                  type='number'
-                  name='nts'
-                  id='nts'
-                  value={values.nts}
-                  onChange={handleChange}
-                  placeholder='Enter NTS'
-                  className='bg-white rounded-md h-12 px-4'
-                />
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor=''>Hotel Name</label>
+                    <input
+                      type='text'
+                      name='name'
+                      id='name'
+                      value={values.name}
+                      onChange={handleChange}
+                      placeholder='Enter Hotel Name'
+                      className='bg-white rounded-md h-12 px-4'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='guest_name' className='text-black'>
+                      Guest Name
+                    </label>
+                    <input
+                      type='text'
+                      name='guest_name'
+                      id='guest_name'
+                      value={values.guest_name}
+                      onChange={handleChange}
+                      placeholder='Enter Guest Name'
+                      className='bg-white rounded-md h-12 px-4'
+                    />
+                  </div>
+                </div>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='nts' className='text-black'>
+                      NTS
+                    </label>
+                    <input
+                      type='number'
+                      name='nts'
+                      id='nts'
+                      value={values.nts}
+                      onChange={handleChange}
+                      placeholder='Enter NTS'
+                      className='bg-white rounded-md h-12 px-4'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='view' className='text-black'>
+                      View
+                    </label>
+                    <input
+                      type='text'
+                      name='view'
+                      id='view'
+                      value={values.view}
+                      onChange={handleChange}
+                      placeholder='Enter View'
+                      className='bg-white rounded-md h-12 px-4'
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           )}
           {step === 2 && (
-            <div className='flex gap-8 items-center'>
-              <h2 className='min-w-[2.625rem]'>Room</h2>
+            <div className='flex flex-col gap-5'>
+              <h2>Room</h2>
               <div className='flex flex-col gap-4'>
                 <div className='flex gap-2'>
                   <div className='flex flex-col gap-2 flex-1'>
@@ -285,36 +294,12 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                     />
                   </div>
                   <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='double'>DBL</label>
+                    <label htmlFor='singleRate'>SGL Rate</label>
                     <input
                       type='number'
-                      name='double'
-                      id='double'
-                      value={values.double}
-                      onChange={handleChange}
-                      placeholder='Enter'
-                      className='bg-white rounded-md h-12 px-4 w-full'
-                    />
-                  </div>
-                  <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='triple'>TRL</label>
-                    <input
-                      type='number'
-                      name='triple'
-                      id='triple'
-                      value={values.triple}
-                      onChange={handleChange}
-                      placeholder='Enter'
-                      className='bg-white rounded-md h-12 px-4 w-full'
-                    />
-                  </div>
-                  <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='quadratic'>QUAD</label>
-                    <input
-                      type='number'
-                      name='quadratic'
-                      id='quadratic'
-                      value={values.quadratic}
+                      name='singleRate'
+                      id='singleRate'
+                      value={values.singleRate}
                       onChange={handleChange}
                       placeholder='Enter'
                       className='bg-white rounded-md h-12 px-4 w-full'
@@ -323,12 +308,12 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                 </div>
                 <div className='flex gap-2'>
                   <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='singleRate'>SGL Rate</label>
+                    <label htmlFor='double'>DBL</label>
                     <input
                       type='number'
-                      name='singleRate'
-                      id='singleRate'
-                      value={values.singleRate}
+                      name='double'
+                      id='double'
+                      value={values.double}
                       onChange={handleChange}
                       placeholder='Enter'
                       className='bg-white rounded-md h-12 px-4 w-full'
@@ -346,6 +331,20 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                       className='bg-white rounded-md h-12 px-4 w-full'
                     />
                   </div>
+                </div>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='triple'>TRL</label>
+                    <input
+                      type='number'
+                      name='triple'
+                      id='triple'
+                      value={values.triple}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
                   <div className='flex flex-col gap-2 flex-1'>
                     <label htmlFor='tripleRate'>TRL Rate</label>
                     <input
@@ -353,6 +352,20 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                       name='tripleRate'
                       id='tripleRate'
                       value={values.tripleRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                </div>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='quadratic'>QUAD</label>
+                    <input
+                      type='number'
+                      name='quadratic'
+                      id='quadratic'
+                      value={values.quadratic}
                       onChange={handleChange}
                       placeholder='Enter'
                       className='bg-white rounded-md h-12 px-4 w-full'
@@ -375,8 +388,8 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
             </div>
           )}
           {step === 3 && (
-            <div className='flex gap-8 items-center'>
-              <h2 className='min-w-[2.625rem]'>Meal</h2>
+            <div className='flex flex-col gap-5'>
+              <h2>Meal</h2>
               <div className='flex flex-col gap-4'>
                 <div className='flex gap-2'>
                   <div className='flex flex-col gap-2 flex-1'>
@@ -392,6 +405,20 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                     />
                   </div>
                   <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='breakfastRate'>BF Rate</label>
+                    <input
+                      type='number'
+                      name='breakfastRate'
+                      id='breakfastRate'
+                      value={values.breakfastRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                </div>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
                     <label htmlFor='lunch'>LU</label>
                     <input
                       type='number'
@@ -404,12 +431,12 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                     />
                   </div>
                   <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='dinner'>DN</label>
+                    <label htmlFor='lunchRate'>LU Rate</label>
                     <input
                       type='number'
-                      name='dinner'
-                      id='dinner'
-                      value={values.dinner}
+                      name='lunchRate'
+                      id='lunchRate'
+                      value={values.lunchRate}
                       onChange={handleChange}
                       placeholder='Enter'
                       className='bg-white rounded-md h-12 px-4 w-full'
@@ -418,24 +445,12 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                 </div>
                 <div className='flex gap-2'>
                   <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='breakfastRate'>BF Rate</label>
+                    <label htmlFor='dinner'>DN</label>
                     <input
                       type='number'
-                      name='breakfastRate'
-                      id='breakfastRate'
-                      value={values.breakfastRate}
-                      onChange={handleChange}
-                      placeholder='Enter'
-                      className='bg-white rounded-md h-12 px-4 w-full'
-                    />
-                  </div>
-                  <div className='flex flex-col gap-2 flex-1'>
-                    <label htmlFor='lunchRate'>LU Rate</label>
-                    <input
-                      type='number'
-                      name='lunchRate'
-                      id='lunchRate'
-                      value={values.lunchRate}
+                      name='dinner'
+                      id='dinner'
+                      value={values.dinner}
                       onChange={handleChange}
                       placeholder='Enter'
                       className='bg-white rounded-md h-12 px-4 w-full'
@@ -458,8 +473,9 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
             </div>
           )}
           {step === 4 && (
-            <div className='flex flex-col gap-4'>
-              <div className='flex gap-2'>
+            <div className='flex flex-col gap-5'>
+              <h2>Amount</h2>
+              <div className='flex flex-col gap-4'>
                 <div className='flex flex-1 flex-col gap-2'>
                   <label htmlFor='roomAmount' className='text-black'>
                     Total Room Amount
@@ -488,46 +504,63 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                     className='bg-white rounded-md h-12 px-4'
                   />
                 </div>
-              </div>
-              <div className='flex flex-1 flex-col gap-2'>
-                <label htmlFor='pkr_amount' className='text-black'>
-                  Enter Payment Amount
-                </label>
-                <input
-                  type='text'
-                  name='pkr_amount'
-                  id='pkr_amount'
-                  value={values.pkr_amount}
-                  disabled
-                  placeholder='Enter Amount'
-                  className='bg-white rounded-md h-12 px-4'
-                />
-              </div>
-              <div className='flex flex-1 flex-col gap-2'>
-                <label for='payment_type'>Payment Type</label>
-                <select
-                  name='payment_type'
-                  id='payment_type'
-                  value={values.payment_type}
-                  onChange={handleChange}
-                  className='bg-white rounded-md h-12 px-4'
-                >
-                  <option value='' disabled hidden>
-                    Select Payment Type
-                  </option>
-                  <option value={credit}>Credit</option>
-                  <option value={debit}>Debit</option>
-                </select>
+                <div className='flex flex-1 flex-col gap-2'>
+                  <label htmlFor='pkr_amount' className='text-black'>
+                    Enter Payment Amount
+                  </label>
+                  <input
+                    type='text'
+                    name='pkr_amount'
+                    id='pkr_amount'
+                    value={values.pkr_amount}
+                    disabled
+                    placeholder='Enter Amount'
+                    className='bg-white rounded-md h-12 px-4'
+                  />
+                </div>
+                <div className='flex flex-1 flex-col gap-2'>
+                  <label for='payment_type'>Payment Type</label>
+                  <select
+                    name='payment_type'
+                    id='payment_type'
+                    value={values.payment_type}
+                    onChange={handleChange}
+                    className='bg-white rounded-md h-12 px-4'
+                  >
+                    <option value='' disabled hidden>
+                      Select Payment Type
+                    </option>
+                    <option value={credit}>Credit</option>
+                    <option value={debit}>Debit</option>
+                  </select>
+                </div>
               </div>
             </div>
           )}
           <div className='flex gap-3 justify-end'>
-            <Button
-              type='submit'
-              className='bg-blue-600 min-w-[3.75rem]'
-              title={mutation.isLoading ? "Submitting..." : "Submit"}
-            />
-            <Button type='button' onClick={crossIconClick} className='bg-red-600' title='Cancel' />
+            {step > 1 && (
+              <Button
+                type='button '
+                className='bg-blue-600'
+                title='previous'
+                onClick={() => setStep((prev) => Math.max(1, prev - 1))}
+              />
+            )}
+            {step < 4 && (
+              <Button
+                type='button'
+                title='next'
+                className='bg-blue-600'
+                onClick={() => setStep((prev) => Math.min(4, prev + 1))}
+              />
+            )}
+            {step === 4 && (
+              <Button
+                type='submit'
+                className='bg-blue-600 min-w-[3.75rem]'
+                title={mutation.isLoading ? "Submitting..." : "Submit"}
+              />
+            )}
           </div>
         </form>
       </ModalBody>
