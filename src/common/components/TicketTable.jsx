@@ -1,6 +1,6 @@
 import { Table, TableBody, TableHead, TableRow, Th, TableData, Button, NoData } from "@common/components";
 
-export function TicketTable({ data, onSendEmail }) {
+export function TicketTable({ data, detailBtnClick, onSendEmail }) {
   const hasData = Array.isArray(data) && data?.length > 0;
   return (
     <Table>
@@ -9,11 +9,10 @@ export function TicketTable({ data, onSendEmail }) {
           <Th text='Sr. No' />
           <Th text='Date' />
           <Th text='Vendor' />
-          <Th text='Description' />
           <Th text='Debit (Sell)' />
           <Th text='Credit (Buy)' />
           <Th text='Balance' />
-          <Th className='w-40' text='Action' />
+          <Th className='w-[11.25rem]' text='Action' />
         </TableRow>
       </TableHead>
       <TableBody>
@@ -23,12 +22,12 @@ export function TicketTable({ data, onSendEmail }) {
               <TableData text={data.length - index} />
               <TableData text={item.date || "-"} />
               <TableData text={item.vendor.name || "-"} />
-              <TableData text={item.description || "-"} />
               <TableData text={item.debit || "-"} />
               <TableData text={item.credit || "-"} />
               <TableData text={item.balance || "-"} />
-              <div className='p-2.5 w-40 table-actions'>
+              <div className='flex gap-2 p-2.5 w-[11.25rem] table-actions'>
                 <Button className='bg-blue-600' title='Email' onClick={() => onSendEmail(item.id)} />
+                <Button className='bg-blue-600' title='Detail' onClick={() => detailBtnClick(item)} />
               </div>
             </TableRow>
           ))

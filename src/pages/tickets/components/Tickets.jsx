@@ -1,4 +1,4 @@
-import { Button, Header, TicketTable, TicketModal } from "@common/components";
+import { Button, Header, TicketTable, TicketModal, TicketDetailModal } from "@common/components";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 export function Tickets() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openTicketModal, setOpenTicketModal] = useState(false);
+  const [openTicketDetailModal, setOpenTicketDetailModal] = useState(false);
+  const [ticketDetail, setTicketDetail] = useState(null);
   const queryClient = useQueryClient();
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
@@ -52,6 +54,10 @@ export function Tickets() {
       toast.error("Failed to send email.");
     },
   });
+  const handleDetailBtnClick = (row) => {
+    setTicketDetail(row);
+    setOpenTicketDetailModal(true);
+  };
   return (
     <div>
       <Header />
@@ -86,7 +92,13 @@ export function Tickets() {
           </div>
         </div>
         {ticketsQuery.error && <p>Error Loading Tickets.</p>}
-        {ticketsQuery.data && <TicketTable data={ticketsQuery.data} onSendEmail={sendEmailMutation.mutate} />}
+        {ticketsQuery.data && (
+          <TicketTable
+            data={ticketsQuery.data}
+            detailBtnClick={handleDetailBtnClick}
+            onSendEmail={sendEmailMutation.mutate}
+          />
+        )}
       </div>
       {openTicketModal && (
         <TicketModal
@@ -96,6 +108,9 @@ export function Tickets() {
           vendors={vendorQuery.data}
           selectedVendor={selectedVendor}
         />
+      )}
+      {openTicketDetailModal && (
+        <TicketDetailModal data={ticketDetail} crossIconClick={() => setOpenTicketDetailModal(false)} />
       )}
     </div>
   );

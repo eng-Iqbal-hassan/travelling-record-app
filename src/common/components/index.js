@@ -24,3 +24,4 @@ export { VisaTable } from "@common/components/VisaTable";
 export { HotelDetailModal } from "@common/components/HotelDetailModal";
 export { TrailTable } from "@common/components/TrailTable";
 export { NoData } from "@common/components/NoData";
+export { TicketDetailModal } from "@common/components/TicketDetailModal";
