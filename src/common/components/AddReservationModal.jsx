@@ -5,7 +5,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect } from "react";
 
-export function AddReservationModal({ crossIconClick, error, success, vendors = [] }) {
+export function AddReservationModal({ crossIconClick, error, success, vendors = [], selectedVendor }) {
   const credit = "credit";
   const debit = "debit";
   const mutation = useMutation({
@@ -21,7 +21,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
   });
   const formik = useFormik({
     initialValues: {
-      vendor: "",
+      vendor: selectedVendor || "",
       checked_in: "",
       checked_out: "",
       name: "",
@@ -158,6 +158,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                   value={values.vendor}
                   onChange={handleChange}
                   className='bg-white rounded-md h-12 px-4'
+                  disabled={Boolean(selectedVendor)}
                 >
                   <option value='' disabled hidden>
                     Select a vendor

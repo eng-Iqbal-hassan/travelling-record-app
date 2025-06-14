@@ -108,6 +108,7 @@ export function Reservation() {
           success={handleSuccess}
           error={handleError}
           vendors={vendorQuery.data}
+          selectedVendor={selectedVendor}
         />
       )}
       {openReservationDetailModal && reservationDetail && (

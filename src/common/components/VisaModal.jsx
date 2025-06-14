@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-export function VisaModal({ crossIconClick, error, success, vendors = [] }) {
+export function VisaModal({ crossIconClick, error, success, vendors = [], selectedVendor }) {
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34/api/visa/", payload);
@@ -22,7 +22,7 @@ export function VisaModal({ crossIconClick, error, success, vendors = [] }) {
       name: "",
       passport_number: "",
       voucher_number: "",
-      vendor_id: "",
+      vendor_id: selectedVendor || "",
       pkr_amount: "",
       payment_type: "",
     },
@@ -37,6 +37,26 @@ export function VisaModal({ crossIconClick, error, success, vendors = [] }) {
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Visa</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
+            <label for='vendor'>Vendor Name</label>
+            <select
+              name='vendor_id'
+              id='vendor_id'
+              value={values.vendor_id}
+              onChange={handleChange}
+              className='bg-white rounded-md h-12 px-4'
+              disabled={Boolean(selectedVendor)}
+            >
+              <option value='' disabled hidden>
+                Select a vendor
+              </option>
+              {vendors.map((vendor) => (
+                <option key={vendor.id} value={vendor.id}>
+                  {vendor.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className='flex flex-col gap-2'>
             <label for='name'>Visa Holder</label>
             <input
@@ -69,25 +89,6 @@ export function VisaModal({ crossIconClick, error, success, vendors = [] }) {
               value={values.voucher_number}
               onChange={handleChange}
             />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <label for='vendor'>Vendor Name</label>
-            <select
-              name='vendor_id'
-              id='vendor_id'
-              value={values.vendor_id}
-              onChange={handleChange}
-              className='bg-white rounded-md h-12 px-4'
-            >
-              <option value='' disabled hidden>
-                Select a vendor
-              </option>
-              {vendors.map((vendor) => (
-                <option key={vendor.id} value={vendor.id}>
-                  {vendor.name}
-                </option>
-              ))}
-            </select>
           </div>
           <div className='flex flex-col gap-2'>
             <label for='pkr_amount'>Amount(pkr)</label>

@@ -76,6 +76,7 @@ export function Visa() {
           success={handleSuccess}
           error={handleError}
           vendors={vendorQuery.data}
+          selectedVendor={selectedVendor}
           crossIconClick={() => setOpenVisaModal(false)}
         />
       )}
