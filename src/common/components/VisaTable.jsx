@@ -31,9 +31,7 @@ export function VisaTable({ data }) {
             </TableRow>
           ))
         ) : (
-          <TableRow className='relative h-[68vh]'>
-            <NoData />
-          </TableRow>
+          <NoData />
         )}
       </TableBody>
     </Table>

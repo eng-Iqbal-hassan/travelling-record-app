@@ -39,9 +39,7 @@ export function ReservationTable({ data, detailBtnClick, onSendEmail }) {
             </TableRow>
           ))
         ) : (
-          <TableRow className='relative h-[68vh]'>
-            <NoData />
-          </TableRow>
+          <NoData />
         )}
       </TableBody>
     </Table>

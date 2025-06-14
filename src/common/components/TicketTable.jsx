@@ -32,9 +32,7 @@ export function TicketTable({ data, detailBtnClick, onSendEmail }) {
             </TableRow>
           ))
         ) : (
-          <TableRow className='relative h-[68vh]'>
-            <NoData />
-          </TableRow>
+          <NoData />
         )}
       </TableBody>
     </Table>
