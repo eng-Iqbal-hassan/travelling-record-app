@@ -94,6 +94,7 @@ export function Tickets() {
           success={handleSuccess}
           error={handleError}
           vendors={vendorQuery.data}
+          selectedVendor={selectedVendor}
         />
       )}
     </div>

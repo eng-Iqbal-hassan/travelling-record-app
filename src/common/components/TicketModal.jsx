@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-export function TicketModal({ crossIconClick, success, error, vendors = [] }) {
+export function TicketModal({ crossIconClick, success, error, vendors = [], selectedVendor }) {
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34//api/ticket/v1/", payload);
@@ -19,7 +19,7 @@ export function TicketModal({ crossIconClick, success, error, vendors = [] }) {
   });
   const formik = useFormik({
     initialValues: {
-      vendor: "",
+      vendor: selectedVendor || "",
       date: "",
       childCount: 0,
       childRate: 0,
@@ -78,6 +78,7 @@ export function TicketModal({ crossIconClick, success, error, vendors = [] }) {
                 className='bg-white rounded-md h-12 px-4'
                 value={values.vendor}
                 onChange={handleChange}
+                disabled={Boolean(selectedVendor)}
               >
                 <option value='' disabled hidden>
                   Select an option
