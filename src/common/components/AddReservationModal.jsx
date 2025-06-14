@@ -3,11 +3,12 @@ import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useFormik } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function AddReservationModal({ crossIconClick, error, success, vendors = [], selectedVendor }) {
   const credit = "credit";
   const debit = "debit";
+  const [step, setStep] = useState(4);
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34//api/hotels/", payload);
@@ -144,12 +145,12 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
 
   return (
     <ModalWrapper>
-      <ModalBody className='w-[75rem]'>
+      <ModalBody className='w-[50rem]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Reservation</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-          <div className='flex'>
-            <div className='flex flex-col gap-4 border-r border-solid border-gray-300 pr-6 flex-1'>
+          {step === 1 && (
+            <div className='flex flex-col gap-4'>
               <div className='flex flex-col gap-2'>
                 <label for='vendor'>To</label>
                 <select
@@ -265,193 +266,199 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                 />
               </div>
             </div>
-            <div className='flex flex-col gap-4 pl-6 flex-1'>
-              <div className='flex gap-8 items-center'>
-                <h2 className='min-w-[2.625rem]'>Room</h2>
-                <div className='flex flex-col gap-4'>
-                  <div className='flex gap-2'>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='single'>SGL</label>
-                      <input
-                        type='number'
-                        name='single'
-                        id='single'
-                        value={values.single}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='double'>DBL</label>
-                      <input
-                        type='number'
-                        name='double'
-                        id='double'
-                        value={values.double}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='triple'>TRL</label>
-                      <input
-                        type='number'
-                        name='triple'
-                        id='triple'
-                        value={values.triple}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='quadratic'>QUAD</label>
-                      <input
-                        type='number'
-                        name='quadratic'
-                        id='quadratic'
-                        value={values.quadratic}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
+          )}
+          {step === 2 && (
+            <div className='flex gap-8 items-center'>
+              <h2 className='min-w-[2.625rem]'>Room</h2>
+              <div className='flex flex-col gap-4'>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='single'>SGL</label>
+                    <input
+                      type='number'
+                      name='single'
+                      id='single'
+                      value={values.single}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
                   </div>
-                  <div className='flex gap-2'>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='singleRate'>SGL Rate</label>
-                      <input
-                        type='number'
-                        name='singleRate'
-                        id='singleRate'
-                        value={values.singleRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='doubleRate'>DBL Rate</label>
-                      <input
-                        type='number'
-                        name='doubleRate'
-                        id='doubleRate'
-                        value={values.doubleRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='tripleRate'>TRL Rate</label>
-                      <input
-                        type='number'
-                        name='tripleRate'
-                        id='tripleRate'
-                        value={values.tripleRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='quadraticRate'>QUAD Rate</label>
-                      <input
-                        type='number'
-                        name='quadraticRate'
-                        id='quadraticRate'
-                        value={values.quadraticRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='double'>DBL</label>
+                    <input
+                      type='number'
+                      name='double'
+                      id='double'
+                      value={values.double}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='triple'>TRL</label>
+                    <input
+                      type='number'
+                      name='triple'
+                      id='triple'
+                      value={values.triple}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='quadratic'>QUAD</label>
+                    <input
+                      type='number'
+                      name='quadratic'
+                      id='quadratic'
+                      value={values.quadratic}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                </div>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='singleRate'>SGL Rate</label>
+                    <input
+                      type='number'
+                      name='singleRate'
+                      id='singleRate'
+                      value={values.singleRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='doubleRate'>DBL Rate</label>
+                    <input
+                      type='number'
+                      name='doubleRate'
+                      id='doubleRate'
+                      value={values.doubleRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='tripleRate'>TRL Rate</label>
+                    <input
+                      type='number'
+                      name='tripleRate'
+                      id='tripleRate'
+                      value={values.tripleRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='quadraticRate'>QUAD Rate</label>
+                    <input
+                      type='number'
+                      name='quadraticRate'
+                      id='quadraticRate'
+                      value={values.quadraticRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
                   </div>
                 </div>
               </div>
-              <div className='flex gap-8 items-center'>
-                <h2 className='min-w-[2.625rem]'>Meal</h2>
-                <div className='flex flex-col gap-4'>
-                  <div className='flex gap-2'>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='breakfast'>BF</label>
-                      <input
-                        type='number'
-                        name='breakfast'
-                        id='breakfast'
-                        value={values.breakfast}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='lunch'>LU</label>
-                      <input
-                        type='number'
-                        name='lunch'
-                        id='lunch'
-                        value={values.lunch}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='dinner'>DN</label>
-                      <input
-                        type='number'
-                        name='dinner'
-                        id='dinner'
-                        value={values.dinner}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
+            </div>
+          )}
+          {step === 3 && (
+            <div className='flex gap-8 items-center'>
+              <h2 className='min-w-[2.625rem]'>Meal</h2>
+              <div className='flex flex-col gap-4'>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='breakfast'>BF</label>
+                    <input
+                      type='number'
+                      name='breakfast'
+                      id='breakfast'
+                      value={values.breakfast}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
                   </div>
-                  <div className='flex gap-2'>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='breakfastRate'>BF Rate</label>
-                      <input
-                        type='number'
-                        name='breakfastRate'
-                        id='breakfastRate'
-                        value={values.breakfastRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='lunchRate'>LU Rate</label>
-                      <input
-                        type='number'
-                        name='lunchRate'
-                        id='lunchRate'
-                        value={values.lunchRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-2 flex-1'>
-                      <label htmlFor='dinnerRate'>DN Rate</label>
-                      <input
-                        type='number'
-                        name='dinnerRate'
-                        id='dinnerRate'
-                        value={values.dinnerRate}
-                        onChange={handleChange}
-                        placeholder='Enter'
-                        className='bg-white rounded-md h-12 px-4 w-full'
-                      />
-                    </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='lunch'>LU</label>
+                    <input
+                      type='number'
+                      name='lunch'
+                      id='lunch'
+                      value={values.lunch}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='dinner'>DN</label>
+                    <input
+                      type='number'
+                      name='dinner'
+                      id='dinner'
+                      value={values.dinner}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                </div>
+                <div className='flex gap-2'>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='breakfastRate'>BF Rate</label>
+                    <input
+                      type='number'
+                      name='breakfastRate'
+                      id='breakfastRate'
+                      value={values.breakfastRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='lunchRate'>LU Rate</label>
+                    <input
+                      type='number'
+                      name='lunchRate'
+                      id='lunchRate'
+                      value={values.lunchRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
+                  </div>
+                  <div className='flex flex-col gap-2 flex-1'>
+                    <label htmlFor='dinnerRate'>DN Rate</label>
+                    <input
+                      type='number'
+                      name='dinnerRate'
+                      id='dinnerRate'
+                      value={values.dinnerRate}
+                      onChange={handleChange}
+                      placeholder='Enter'
+                      className='bg-white rounded-md h-12 px-4 w-full'
+                    />
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+          {step === 4 && (
+            <div className='flex flex-col gap-4'>
               <div className='flex gap-2'>
                 <div className='flex flex-1 flex-col gap-2'>
                   <label htmlFor='roomAmount' className='text-black'>
@@ -513,7 +520,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
                 </select>
               </div>
             </div>
-          </div>
+          )}
           <div className='flex gap-3 justify-end'>
             <Button
               type='submit'
