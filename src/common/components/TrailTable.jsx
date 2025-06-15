@@ -7,7 +7,7 @@ export function TrailTable({ data }) {
       <TableHead>
         <TableRow>
           <Th text='Sr. No' />
-          <Th text='Description' />
+          <Th text='name' />
           <Th text='Type' />
           <Th text='Payment Type' />
           <Th text='Debit' />
