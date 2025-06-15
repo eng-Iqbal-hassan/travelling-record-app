@@ -3,6 +3,7 @@ import { Button, ModalBody, ModalWrapper } from "@common/components";
 import { useFormik } from "formik";
 import axios from "axios";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export function AddEditVendorModal({ crossIconClick, dataAdded, initialData }) {
   const formik = useFormik({
@@ -11,18 +12,20 @@ export function AddEditVendorModal({ crossIconClick, dataAdded, initialData }) {
       email: "",
       company_name: "",
       phone_number: "",
-      type: "",
     },
     onSubmit: async (values) => {
       try {
         if (initialData?.id) {
           await axios.patch(`http://54.164.99.34//api/vendors/${initialData.id}/update/`, values);
+          toast.success("Vendor updated successfully!");
         } else {
           await axios.post("http://54.164.99.34//api/vendors/create/", values);
+          toast.success("Vendor added successfully!");
         }
         dataAdded();
         crossIconClick();
       } catch (err) {
+        toast.error("Failed to submit vendor. Please try again.");
         console.error("Error submitting vendor:", err);
       }
     },
@@ -37,7 +40,6 @@ export function AddEditVendorModal({ crossIconClick, dataAdded, initialData }) {
         email: initialData.email || "",
         company_name: initialData.companyName || "",
         phone_number: initialData.phoneNumber || "",
-        type: initialData.type || "",
       });
     }
   }, [initialData]);
@@ -91,22 +93,6 @@ export function AddEditVendorModal({ crossIconClick, dataAdded, initialData }) {
               value={values.phone_number}
               onChange={handleChange}
             />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <label htmlFor='type'>Type</label>
-            <select
-              name='type'
-              id='type'
-              className='bg-white rounded-md h-12 px-4'
-              value={values.type}
-              onChange={handleChange}
-            >
-              <option value='' disabled hidden>
-                Select an option
-              </option>
-              <option value='TIC'>Ticket</option>
-              <option value='HOT'>Hotel</option>
-            </select>
           </div>
           <div className='flex gap-3 justify-end'>
             <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title={initialData ? "Update" : "Add"} />

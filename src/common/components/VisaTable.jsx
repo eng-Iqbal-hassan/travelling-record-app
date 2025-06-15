@@ -1,4 +1,4 @@
-import { Table, TableBody, TableHead, TableRow, Th, TableData, Button } from "@common/components";
+import { Table, TableBody, TableHead, TableRow, Th, TableData, NoData } from "@common/components";
 
 export function VisaTable({ data }) {
   const hasData = Array.isArray(data) && data?.length > 0;
@@ -7,7 +7,7 @@ export function VisaTable({ data }) {
       <TableHead>
         <TableRow>
           <Th text='Sr. No' />
-          <Th text='Name' />
+          <Th text='Visa Holder' />
           <Th text='Passport Number' />
           <Th text='Voucher Number' />
           <Th text='Payment Type' />
@@ -18,9 +18,9 @@ export function VisaTable({ data }) {
       </TableHead>
       <TableBody>
         {hasData ? (
-          data?.map((item, index) => (
+          [...data]?.reverse().map((item, index) => (
             <TableRow key={index} className='h-[3.75rem]'>
-              <TableData text={index + 1} />
+              <TableData text={data.length - index} />
               <TableData text={item.name} />
               <TableData text={item.passportNumber || "-"} />
               <TableData text={item.voucherNumber || "-"} />
@@ -31,9 +31,7 @@ export function VisaTable({ data }) {
             </TableRow>
           ))
         ) : (
-          <TableRow className='relative h-[71vh]'>
-            <div className='w-fit absolute top-1/2 left-1/2 text-2xl font-semibold -translate-x-1/2'>No Data Found</div>
-          </TableRow>
+          <NoData />
         )}
       </TableBody>
     </Table>

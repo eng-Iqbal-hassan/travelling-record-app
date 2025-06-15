@@ -1,4 +1,4 @@
-import { Header, TrailTable } from "@common/components";
+import { Header, Loader, TrailTable } from "@common/components";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
@@ -30,7 +30,12 @@ export function Trail() {
       <Header />
       <div className="className='flex flex-col gap-5 py-4 px-8">
         <div className='flex justify-between items-center mb-5'>
-          <h2>Trail</h2>
+          <h2>
+            Trail
+            {selectedVendor && vendorQuery?.data
+              ? ` (${vendorQuery.data.find((v) => String(v.id) === String(selectedVendor))?.name || ""})`
+              : ""}
+          </h2>
           <select
             name='vendors'
             id='vendors'
@@ -50,12 +55,17 @@ export function Trail() {
               ))}
           </select>
         </div>
-        {!trailQuery.data && (
+        {!selectedVendor ? (
           <div className='h-[75vh] w-full flex items-center justify-center text-2xl font-semibold'>
             Select a Vendor to get his/her trail
           </div>
+        ) : trailQuery.isLoading ? (
+          <Loader />
+        ) : trailQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
+          <TrailTable data={trailQuery.data} />
         )}
-        {trailQuery.data && <TrailTable data={trailQuery.data} />}
       </div>
     </div>
   );

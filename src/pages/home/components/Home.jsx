@@ -2,6 +2,7 @@ import { AddEditVendorModal, Button, DeleteModal, Header, VendorTable } from "@c
 import { useHome } from "@pages/home";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export function Home() {
   const { data, isFetching, onClickTitle } = useHome();
@@ -28,6 +29,11 @@ export function Home() {
   const handleCloseVendorModal = () => {
     setEditVendorData(null);
     setOpenVendorModal(false);
+  };
+
+  const dataAdded = () => {
+    setEditVendorData(null);
+    setOpenVendorModal(false);
     fetchData();
   };
 
@@ -49,10 +55,12 @@ export function Home() {
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(`http://54.164.99.34//api/vendors/${deleteVendorId}/delete/`);
+      toast.success("Vendor deleted successfully!");
       fetchData(); // Refresh vendor list
       setOpenDeleteModal(false);
       setDeleteVendorId(null);
     } catch (err) {
+      toast.error("Failed to delete vendor. Please try again.");
       console.error("Error deleting vendor", err);
     }
   };
@@ -72,7 +80,7 @@ export function Home() {
       {openVendorModal && (
         <AddEditVendorModal
           crossIconClick={handleCloseVendorModal}
-          dataAdded={handleCloseVendorModal}
+          dataAdded={dataAdded}
           initialData={editVendorData}
         />
       )}

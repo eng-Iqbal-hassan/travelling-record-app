@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-export function VisaModal({ crossIconClick, success, vendors = [] }) {
+export function VisaModal({ crossIconClick, error, success, vendors = [], selectedVendor }) {
   const mutation = useMutation({
     mutationFn: async (payload) => {
       await axios.post("http://54.164.99.34/api/visa/", payload);
@@ -13,13 +13,16 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
     onSuccess: () => {
       success();
     },
+    onError: () => {
+      error();
+    },
   });
   const formik = useFormik({
     initialValues: {
       name: "",
       passport_number: "",
       voucher_number: "",
-      vendor_id: "",
+      vendor_id: selectedVendor || "",
       pkr_amount: "",
       payment_type: "",
     },
@@ -35,7 +38,27 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
         <h1>Add Visa</h1>
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
-            <label for='name'>Name</label>
+            <label for='vendor'>Vendor Name</label>
+            <select
+              name='vendor_id'
+              id='vendor_id'
+              value={values.vendor_id}
+              onChange={handleChange}
+              className='bg-white rounded-md h-12 px-4'
+              disabled={Boolean(selectedVendor)}
+            >
+              <option value='' disabled hidden>
+                Select a vendor
+              </option>
+              {vendors.map((vendor) => (
+                <option key={vendor.id} value={vendor.id}>
+                  {vendor.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <label for='name'>Visa Holder</label>
             <input
               type='text'
               name='name'
@@ -68,25 +91,6 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
             />
           </div>
           <div className='flex flex-col gap-2'>
-            <label for='vendor'>To</label>
-            <select
-              name='vendor_id'
-              id='vendor_id'
-              value={values.vendor_id}
-              onChange={handleChange}
-              className='bg-white rounded-md h-12 px-4'
-            >
-              <option value='' disabled hidden>
-                Select a vendor
-              </option>
-              {vendors.map((vendor) => (
-                <option key={vendor.id} value={vendor.id}>
-                  {vendor.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='flex flex-col gap-2'>
             <label for='pkr_amount'>Amount(pkr)</label>
             <input
               type='number'
@@ -114,7 +118,11 @@ export function VisaModal({ crossIconClick, success, vendors = [] }) {
             </select>
           </div>
           <div className='flex gap-3 justify-end'>
-            <Button type='submit' className='bg-blue-600 min-w-[3.75rem]' title='Add' />
+            <Button
+              type='submit'
+              className='bg-blue-600 min-w-[3.75rem]'
+              title={mutation.isLoading ? "Submitting..." : "Submit"}
+            />
             <Button onClick={crossIconClick} type='button' className='bg-red-600' title='Cancel' />
           </div>
         </form>

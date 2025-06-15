@@ -1,12 +1,14 @@
-import { AddReservationModal, Button, Header, HotelDetailModal, ReservationTable } from "@common/components";
+import { AddReservationModal, Button, Header, HotelDetailModal, Loader, ReservationTable } from "@common/components";
 import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function Reservation() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openReservationModal, setOpenReservationModal] = useState(false);
   const [openReservationDetailModal, setOpenReservationDetailModal] = useState(false);
+  const [reservationDetail, setReservationDetail] = useState(null);
   const queryClient = useQueryClient();
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
@@ -23,6 +25,7 @@ export function Reservation() {
         ? `http://54.164.99.34/api/vendors/hotels/${selectedVendor}/`
         : `http://54.164.99.34/api/hotels/all/`;
       const response = await axios.get(url);
+      console.log(response.data.hotels);
       return response.data.hotels;
     },
     staleTime: 1000 * 60 * 5,
@@ -31,6 +34,31 @@ export function Reservation() {
   const handleSuccess = () => {
     setOpenReservationModal(false);
     queryClient.invalidateQueries(["hotels", selectedVendor]);
+    toast.success("Reservation created successfully!");
+  };
+  const handleError = () => {
+    setOpenReservationModal(false);
+    toast.error("Something Went Wrong. Check your internet connect and try again!");
+  };
+
+  const sendEmailMutation = useMutation({
+    mutationFn: async (hotelId) => {
+      const response = await axios.post("http://54.164.99.34//api/hotels/send-hotel-email/", {
+        hotel_id: hotelId,
+      });
+      return response.data;
+    },
+    onSuccess: (_, hotelId) => {
+      toast.success(`Email sent successfully for this Reservation`);
+    },
+    onError: (error) => {
+      console.error("Email sending failed:", error);
+      toast.error("Failed to send email.");
+    },
+  });
+  const handleDetailBtnClick = (row) => {
+    setReservationDetail(row);
+    setOpenReservationDetailModal(true);
   };
 
   return (
@@ -38,7 +66,12 @@ export function Reservation() {
       <Header />
       <div className='flex flex-col gap-5 py-4 px-8'>
         <div className='flex justify-between items-center'>
-          <h2>Reservation</h2>
+          <h2>
+            Reservations{" "}
+            {selectedVendor && vendorQuery?.data
+              ? ` (${vendorQuery.data.find((v) => String(v.id) === String(selectedVendor))?.name || ""})`
+              : " (All)"}
+          </h2>
           <div className='flex gap-2'>
             <Button className='bg-[#000080]' title='Add Reservation' onClick={() => setOpenReservationModal(true)} />
             <select
@@ -61,18 +94,30 @@ export function Reservation() {
             </select>
           </div>
         </div>
-        {hotelsQuery.data && (
-          <ReservationTable data={hotelsQuery.data} onClick={() => setOpenReservationDetailModal(true)} />
+        {hotelsQuery.isLoading ? (
+          <Loader />
+        ) : hotelsQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
+          <ReservationTable
+            data={hotelsQuery.data}
+            detailBtnClick={handleDetailBtnClick}
+            onSendEmail={sendEmailMutation.mutate}
+          />
         )}
       </div>
       {openReservationModal && (
         <AddReservationModal
           crossIconClick={() => setOpenReservationModal(false)}
           success={handleSuccess}
+          error={handleError}
           vendors={vendorQuery.data}
+          selectedVendor={selectedVendor}
         />
       )}
-      {openReservationDetailModal && <HotelDetailModal crossIconClick={() => setOpenReservationDetailModal(false)} />}
+      {openReservationDetailModal && reservationDetail && (
+        <HotelDetailModal data={reservationDetail} crossIconClick={() => setOpenReservationDetailModal(false)} />
+      )}
     </div>
   );
 }

@@ -4,6 +4,13 @@
   border-radius: 10px;
   border: 1px solid #ccc;
 }
+.table-actions {
+  border-bottom: 1px solid #ccc !important;
+}
+tr:last-child .table-actions {
+  border-bottom: none !important;
+}
+
 .link {
   opacity: 70%;
 }
@@ -33,6 +40,12 @@
 
 .rounded-table tr:last-child td {
   border-bottom: none;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 h2 {

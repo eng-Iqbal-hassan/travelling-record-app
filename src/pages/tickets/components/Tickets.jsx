@@ -1,14 +1,14 @@
-import { Button, Header, TicketTable } from "@common/components";
-import { TicketModal } from "@common/components/TicketModal";
+import { Button, Header, TicketTable, TicketModal, TicketDetailModal, Loader } from "@common/components";
 import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Select from "react-select";
 
 export function Tickets() {
   const [selectedVendor, setSelectedVendor] = useState("");
   const [openTicketModal, setOpenTicketModal] = useState(false);
+  const [openTicketDetailModal, setOpenTicketDetailModal] = useState(false);
+  const [ticketDetail, setTicketDetail] = useState(null);
   const queryClient = useQueryClient();
   const vendorQuery = useQuery({
     queryKey: ["vendors"],
@@ -35,14 +35,42 @@ export function Tickets() {
     queryClient.invalidateQueries(["tickets", selectedVendor]);
     toast.success("Ticket created successfully!");
   };
+  const handleError = () => {
+    setOpenTicketModal(false);
+    toast.error("Something Went Wrong. Check your internet connect and try again!");
+  };
+  const sendEmailMutation = useMutation({
+    mutationFn: async (ticketId) => {
+      const response = await axios.post("http://54.164.99.34//api/ticket/v1/send-ticket-email/", {
+        ticket_id: ticketId,
+      });
+      return response.data;
+    },
+    onSuccess: (_, ticketId) => {
+      toast.success(`Email sent successfully for this Ticket`);
+    },
+    onError: (error) => {
+      console.error("Email sending failed:", error);
+      toast.error("Failed to send email.");
+    },
+  });
+  const handleDetailBtnClick = (row) => {
+    setTicketDetail(row);
+    setOpenTicketDetailModal(true);
+  };
   return (
     <div>
       <Header />
       <div className='flex flex-col gap-5 py-4 px-8'>
         <div className='flex justify-between items-center'>
-          <h2>Ticket</h2>
+          <h2>
+            Tickets
+            {selectedVendor && vendorQuery?.data
+              ? ` (${vendorQuery.data.find((v) => String(v.id) === String(selectedVendor))?.name || ""})`
+              : " (All)"}
+          </h2>
           <div className='flex gap-2'>
-            <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />\
+            <Button className='bg-[#000080]' title='Add Ticket' onClick={() => setOpenTicketModal(true)} />
             <select
               name='vendors'
               id='vendors'
@@ -63,15 +91,29 @@ export function Tickets() {
             </select>
           </div>
         </div>
-        {ticketsQuery.error && <p>Error Loading Tickets.</p>}
-        {ticketsQuery.data && <TicketTable data={ticketsQuery.data} />}
+        {ticketsQuery.isLoading ? (
+          <Loader />
+        ) : ticketsQuery.error ? (
+          <p>Error Loading Tickets.</p>
+        ) : (
+          <TicketTable
+            data={ticketsQuery.data}
+            detailBtnClick={handleDetailBtnClick}
+            onSendEmail={sendEmailMutation.mutate}
+          />
+        )}
       </div>
       {openTicketModal && (
         <TicketModal
           crossIconClick={() => setOpenTicketModal(false)}
           success={handleSuccess}
+          error={handleError}
           vendors={vendorQuery.data}
+          selectedVendor={selectedVendor}
         />
+      )}
+      {openTicketDetailModal && (
+        <TicketDetailModal data={ticketDetail} crossIconClick={() => setOpenTicketDetailModal(false)} />
       )}
     </div>
   );
