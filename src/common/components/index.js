@@ -26,3 +26,4 @@ export { TrailTable } from "@common/components/TrailTable";
 export { NoData } from "@common/components/NoData";
 export { TicketDetailModal } from "@common/components/TicketDetailModal";
 export { Loader } from "@common/components/Loader";
+export { ReservationStepper } from "@common/components/ReservationStepper";
