@@ -148,7 +148,7 @@ export function AddReservationModal({ crossIconClick, error, success, vendors = 
       <ModalBody className='w-[50rem]'>
         <CrossIcon className='absolute top-2 right-2' onClick={crossIconClick} />
         <h1>Add Reservation</h1>
-        <ReservationStepper />
+        <ReservationStepper step={step} successLoading={mutation.isLoading} />
         <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
           {step === 1 && (
             <div className='flex flex-col gap-5 min-h-[26.5rem]'>
