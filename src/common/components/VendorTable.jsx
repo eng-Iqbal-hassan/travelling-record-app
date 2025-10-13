@@ -14,7 +14,7 @@ export function VendorTable({ vendor, onUpdate, handleDelete }) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {[...vendor].reverse().map((item, index) => (
+        {vendor.reverse().map((item, index) => (
           <TableRow key={index} className='h-[3.75rem]'>
             <TableData text={vendor.length - index} />
             <TableData text={item.name} />

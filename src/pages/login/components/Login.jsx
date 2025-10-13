@@ -33,30 +33,30 @@ export function Login() {
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues,
     validationSchema: signInSchema,
-    onSubmit: async (values, actions) => {
-      try {
-        const response = await axios.post("http://54.164.99.34/app/login2/", {
-          email: values.email,
-          password: values.password,
-        });
-        const { access, refresh } = response.data;
+    // onSubmit: async (values, actions) => {
+    //   try {
+    //     const response = await axios.post("http://54.164.99.34/app/login2/", {
+    //       email: values.email,
+    //       password: values.password,
+    //     });
+    //     const { access, refresh } = response.data;
 
-        localStorage.setItem("accessToken", access);
-        localStorage.setItem("refreshToken", refresh);
-        console.log("Login successful");
-        actions.resetForm();
-        // navigate(ROUTES.HOME, { replace: true });
-        window.location.href = "/app/";
-      } catch (error) {
-        console.error("Login failed:", error);
-        alert("Login failed: " + (error.response.data.detail || "Invalid credentials"));
-        // if (error.response) {
-        //   alert("Login failed: " + (error.response.data.detail || "Invalid credentials"));
-        // } else {
-        //   alert("Login failed: Please check your connection or try again.");
-        // }
-      }
-    },
+    //     localStorage.setItem("accessToken", access);
+    //     localStorage.setItem("refreshToken", refresh);
+    //     console.log("Login successful");
+    //     actions.resetForm();
+    //     // navigate(ROUTES.HOME, { replace: true });
+    //     window.location.href = "/app/";
+    //   } catch (error) {
+    //     console.error("Login failed:", error);
+    //     alert("Login failed: " + (error.response.data.detail || "Invalid credentials"));
+    //     // if (error.response) {
+    //     //   alert("Login failed: " + (error.response.data.detail || "Invalid credentials"));
+    //     // } else {
+    //     //   alert("Login failed: Please check your connection or try again.");
+    //     // }
+    //   }
+    // },
   });
   console.log("errors", errors);
   //   console.log(formik);
